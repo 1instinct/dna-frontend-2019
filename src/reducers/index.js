@@ -1,9 +1,7 @@
 // import auth from './auth';
 
-const auth = (is = {}) => {
-  return is;
-};
+import page from "./page";
 
 export default {
-  auth
+  page
 };

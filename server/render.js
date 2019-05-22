@@ -1,19 +1,23 @@
 /* eslint-disable no-console */
+import "colors";
 import React from "react";
-import { createStore, combineReducers } from "redux";
+// import { createStore, combineReducers } from "redux";
+import configureStore from "./configureStore";
 import { Provider } from "react-redux";
-import reducers from "../src/reducers";
 import { renderToString } from "react-dom/server";
-import createHistory from "history/createMemoryHistory";
 import { flushChunkNames } from "react-universal-component/server";
 import flushChunks from "webpack-flush-chunks";
 import { ServerStyleSheet, StyleSheetManager } from "styled-components";
 import App from "../src/App";
+import { createMemoryHistory } from "history";
 
-export default ({ clientStats }) => (req, res) => {
-  const store = createStore(combineReducers(reducers));
+export default ({ clientStats }) => async (req, res) => {
+  // const store = createStore(combineReducers(reducers));
+  console.log("REQUEST: ".green, req.path);
+  const store = await configureStore(req);
+  console.log(store);
   const sheet = new ServerStyleSheet();
-  const history = createHistory({ initialEntries: [req.path] });
+  const history = createMemoryHistory({ initialEntries: [req.path] });
   const app = renderToString(
     <Provider store={store}>
       <StyleSheetManager sheet={sheet.instance}>

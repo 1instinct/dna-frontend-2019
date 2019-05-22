@@ -20,7 +20,7 @@ module.exports = {
   rules: {
     "flowtype/boolean-style": [2, "boolean"],
     "flowtype/define-flow-type": 1,
-    "flowtype/delimiter-dangle": [2, "never"],
+    "flowtype/delimiter-dangle": [0, "never"],
     "flowtype/generic-spacing": [2, "never"],
     "flowtype/no-mixed": 2,
     "flowtype/no-primitive-constructor-types": 2,
