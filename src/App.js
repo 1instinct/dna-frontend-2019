@@ -1,50 +1,66 @@
+// @flow
 import { hot } from "react-hot-loader/root";
-import React from "react";
-import { connect } from "react-redux";
+import * as React from "react";
+import { Provider } from "react-redux";
+import configureStore from "./store";
 // import styles from '../css/App'
 // import home from './components/home';
 // import { pages, nextIndex, indexFromPath } from '../utils'
 import UniversalComponent from "./UniversalComponent";
-const styles = {};
+
+type PropsType = {
+  history: {
+    push: (pagepath: string) => void,
+    location: {
+      pathname: string
+    },
+    listen: (callback: (path: { pathname: string }) => void) => void
+  }
+};
+
+type StateType = {
+  index: number,
+  loading: boolean,
+  done: boolean,
+  error: boolean
+};
 
 const pages = ["home"];
-const nextIndex = i => ++i % pages.length;
-const indexFromPath = path => {
+const nextIndex = (i: number): number => ++i % pages.length;
+const indexFromPath = (path: string): number => {
   path = path === "/" ? "/Foo" : path;
   return pages.indexOf(path.substr(1));
 };
 
-class App extends React.Component {
-  render() {
-    const { index, done, loading } = this.state;
+const preloadedState = window.__PRELOADED_STATE__;
+
+// Allow the passed state to be garbage-collected
+delete window.__PRELOADED_STATE__;
+
+const { store } = configureStore(preloadedState);
+
+class App extends React.Component<PropsType, StateType> {
+  render(): React.Node {
+    // const { index, done, loading } = this.state;
     const page = pages[0];
-    const loadingClass = loading ? styles.loading : "";
     // const buttonClass = `${styles[page]} ${loadingClass}`
 
     return (
-      <div className={styles.container}>
-        <h1>DNA UNIVERSAL RENDERING</h1>
-        {done && <div className={styles.checkmark}>all loaded</div>}
+      <Provider store={store}>
         <UniversalComponent
-          page={() => import(`./components/${page}`)}
+          page={(): React.Node =>
+            /* $FlowFixMe */
+            import(`./components/${page}`)
+          }
           onBefore={this.beforeChange}
           onAfter={this.afterChange}
           onError={this.handleError}
         />
-
-        <button type="button" onClick={this.changePage}>
-          {this.buttonText()}
-        </button>
-
-        <p>
-          <span>*why are you looking at this? refresh the page</span>
-          <span>and view the source in Chrome for the real goods</span>
-        </p>
-      </div>
+      </Provider>
     );
   }
 
-  constructor(props) {
+  constructor(props: PropsType) {
     super(props);
 
     const { history } = props;
@@ -58,12 +74,16 @@ class App extends React.Component {
     };
   }
 
+  unregisterHistoryListener = null;
+
   componentDidMount() {
     const { history } = this.props;
-    this.unregisterHistoryListener = history.listen(({ pathname }) => {
-      const index = indexFromPath(pathname);
-      this.setState({ index });
-    });
+    this.unregisterHistoryListener = history.listen(
+      ({ pathname }: { pathname: string }) => {
+        const index = indexFromPath(pathname);
+        this.setState({ index });
+      }
+    );
   }
 
   componentWillUnmount() {
@@ -83,13 +103,21 @@ class App extends React.Component {
     history.push(`/${page}`);
   };
 
-  beforeChange = ({ isSync }) => {
+  beforeChange = ({ isSync }: { isSync: boolean }) => {
     if (!isSync) {
       this.setState({ loading: true, error: false });
     }
   };
 
-  afterChange = ({ isSync, isServer, isMount }) => {
+  afterChange = ({
+    isSync,
+    isServer,
+    isMount
+  }: {
+    isSync: boolean,
+    isServer: boolean,
+    isMount: boolean
+  }) => {
     if (!isSync) {
       this.setState({ loading: false, error: false });
     } else if (!isServer && !isMount) {
@@ -97,11 +125,11 @@ class App extends React.Component {
     }
   };
 
-  handleError = error => {
+  handleError = () => {
     this.setState({ error: true, loading: false });
   };
 
-  buttonText() {
+  buttonText(): string {
     const { loading, error } = this.state;
     if (error) return "ERROR";
     return loading ? "LOADING..." : "CHANGE PAGE";

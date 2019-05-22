@@ -1,4 +1,8 @@
+/* eslint-disable no-console */
 import React from "react";
+import { createStore, combineReducers } from "redux";
+import { Provider } from "react-redux";
+import reducers from "../src/reducers";
 import { renderToString } from "react-dom/server";
 import createHistory from "history/createMemoryHistory";
 import { flushChunkNames } from "react-universal-component/server";
@@ -7,12 +11,15 @@ import { ServerStyleSheet, StyleSheetManager } from "styled-components";
 import App from "../src/App";
 
 export default ({ clientStats }) => (req, res) => {
+  const store = createStore(combineReducers(reducers));
   const sheet = new ServerStyleSheet();
   const history = createHistory({ initialEntries: [req.path] });
   const app = renderToString(
-    <StyleSheetManager sheet={sheet.instance}>
-      <App history={history} />
-    </StyleSheetManager>
+    <Provider store={store}>
+      <StyleSheetManager sheet={sheet.instance}>
+        <App history={history} />
+      </StyleSheetManager>
+    </Provider>
   );
   const styleTags = sheet.getStyleTags();
   sheet.seal();
@@ -22,6 +29,8 @@ export default ({ clientStats }) => (req, res) => {
   const { js, styles, scripts, stylesheets } = flushChunks(clientStats, {
     chunkNames
   });
+
+  const preloadedState = store.getState();
 
   console.log("PATH", req.path);
   console.log("DYNAMIC CHUNK NAMES RENDERED", chunkNames);
@@ -36,6 +45,14 @@ export default ({ clientStats }) => (req, res) => {
           <title>react-universal-component-boilerplate</title>
           ${styles}
           ${styleTags}
+          <script>
+          // WARNING: See the following for security issues around embedding JSON in HTML:
+          // http://redux.js.org/recipes/ServerRendering.html#security-considerations
+          window.__PRELOADED_STATE__ = ${JSON.stringify(preloadedState).replace(
+            /</g,
+            "\\u003c"
+          )}
+        </script>
         </head>
         <body>
           <div id="root">${app}</div>
