@@ -2,9 +2,11 @@
 /* eslint-disable flowtype/require-return-type */
 import * as React from "react";
 // import { Link } from 'react-router-dom';
+import { connect } from "react-redux";
 import styled from "styled-components";
 import BrandText from "./BrandText";
 import { Trans } from "@lingui/macro"; // jsx text wrapper for translations
+import Link from "redux-first-router-link";
 import { Colors } from "../constants";
 import DropdownMenu from "./DropdownMenu";
 
@@ -68,36 +70,39 @@ const NavBarRight = styled.div`
   max-width: 300px;
 `;
 
-const NavBarLink = styled.div`
+const NavBarLink = styled(Link)`
   text-decoration: none;
 `;
 
-class NavigationBar extends React.Component<{}> {
+class NavigationBar extends React.Component<{ pathname: string }> {
   render() {
+    const { pathname } = this.props;
+    const isHome = pathname === "HOME" || pathname === "ROOT";
+    const isDemo = pathname === "DEMO";
     return (
       <NavContainer>
         <NavBar>
           <NavBarLeft>
-            <Trans>
-              <NavBarLink to="/home">
+            <NavBarLink to={{ type: "HOME", payload: { category: "fp" } }}>
+              <Trans>
                 <BrandText
                   bold
                   size={20}
-                  color={Colors.darkNavy}
+                  color={isHome ? Colors.white : Colors.darkNavy}
                   hoverColor={Colors.white}
                 >
                   PSYCLE
                 </BrandText>
-              </NavBarLink>
-            </Trans>
+              </Trans>
+            </NavBarLink>
           </NavBarLeft>
           <NavBarRight>
             <DropdownMenu menuTitle="Solutions" listItems={solutions} />
             <Trans>
-              <NavBarLink to="/demo">
+              <NavBarLink to={{ type: "DEMO", payload: { category: "fp" } }}>
                 <BrandText
                   size={20}
-                  color={Colors.darkNavy}
+                  color={isDemo ? Colors.white : Colors.darkNavy}
                   hoverColor={Colors.white}
                 >
                   Demo
@@ -122,4 +127,9 @@ class NavigationBar extends React.Component<{}> {
   }
 }
 
-export default NavigationBar;
+// eslint-disable-next-line flowtype/no-weak-types
+const mapStateToProps = ({ location }: { location: any }) => ({
+  pathname: location.type
+});
+
+export default connect(mapStateToProps)(NavigationBar);

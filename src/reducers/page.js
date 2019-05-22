@@ -1,11 +1,13 @@
 // pageReducer.js
 import { NOT_FOUND } from "redux-first-router";
 
-const components = {
-  HOME: "Home",
+export const components = {
+  ROOT: "home",
+  HOME: "home",
   USER: "User",
-  [NOT_FOUND]: "NotFound"
+  DEMO: "demo",
+  [NOT_FOUND]: "home"
 };
 
-export default (state = "HOME", action = {}) =>
+export default (state = "home", action = {}) =>
   components[action.type] || state;
