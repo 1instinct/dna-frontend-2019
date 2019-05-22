@@ -2,7 +2,7 @@
 import { applyMiddleware, combineReducers, compose, createStore } from "redux";
 import { connectRoutes } from "redux-first-router";
 
-import rootReducer from "./reducers";
+import reducers from "./reducers";
 
 const routesMap = {
   HOME: "/",
@@ -12,7 +12,7 @@ const routesMap = {
 export default function configureStore(preloadedState) {
   const { reducer, middleware, enhancer } = connectRoutes(routesMap);
 
-  const rootReducer = combineReducers({ ...rootReducer, location: reducer });
+  const rootReducer = combineReducers({ ...reducers, location: reducer });
   const middlewares = applyMiddleware(middleware);
   const enhancers = compose(
     enhancer,
