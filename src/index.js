@@ -4,12 +4,12 @@ import { createBrowserHistory } from "history";
 import { Provider } from "react-redux";
 import configureStore from "./store";
 import App from "./App.js";
+import "./index.styl";
 
 export const history = createBrowserHistory();
 
 const preloadedState =
   typeof window !== "undefined" && window.__PRELOADED_STATE__;
-
 // Allow the passed state to be garbage-collected
 typeof window !== "undefined" && delete window.__PRELOADED_STATE__;
 

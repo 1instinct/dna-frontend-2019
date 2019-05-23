@@ -1,8 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
 import universal from "react-universal-component";
-// import Loading from './components/Loading'
-// import NotFound from './components/NotFound'
 
 const NotFound = () => <div>Not Found</div>;
 const Loading = () => <div>Loading</div>;

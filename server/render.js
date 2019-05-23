@@ -1,7 +1,6 @@
 /* eslint-disable no-console */
 import "colors";
 import React from "react";
-// import { createStore, combineReducers } from "redux";
 import configureStore from "./configureStore";
 import { Provider } from "react-redux";
 import { renderToString } from "react-dom/server";
@@ -12,10 +11,7 @@ import App from "../src/App";
 import { createMemoryHistory } from "history";
 
 export default ({ clientStats }) => async (req, res) => {
-  // const store = createStore(combineReducers(reducers));
-  console.log("REQUEST: ".green, req.path);
   const store = await configureStore(req);
-  console.log(store);
   const sheet = new ServerStyleSheet();
   const history = createMemoryHistory({ initialEntries: [req.path] });
   const app = renderToString(
@@ -35,6 +31,7 @@ export default ({ clientStats }) => async (req, res) => {
   });
 
   const preloadedState = store.getState();
+  console.log("preloadedState: ", preloadedState);
 
   console.log("PATH", req.path);
   console.log("DYNAMIC CHUNK NAMES RENDERED", chunkNames);
