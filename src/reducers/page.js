@@ -6,8 +6,12 @@ export const components = {
   HOME: "home",
   USER: "User",
   DEMO: "demo",
+  TRACKING: "solutions",
+  DELIVERY: "solutions",
+  INVENTORY: "solutions",
+  RETAIL: "solutions",
+  HOW_IT_WORKS: "howitworks",
   [NOT_FOUND]: "home"
 };
 
-export default (state = "home", action = {}) =>
-  components[action.type] || state;
+export default (state = "", action = {}) => components[action.type] || state;

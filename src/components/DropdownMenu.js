@@ -3,6 +3,7 @@
 import * as React from "react";
 import onClickOutside from "react-onclickoutside";
 import styled from "styled-components";
+import Link from "redux-first-router-link";
 import BrandText from "./BrandText";
 import { Colors } from "../constants";
 // import { withRouter } from 'react-router-dom';
@@ -32,7 +33,7 @@ const ListItems = styled.div`
   text-decoration: none;
 `;
 
-const ListItem = styled.div`
+const ListItem = styled(Link)`
   padding-bottom: 10px;
   cursor: pointer;
 `;
@@ -44,10 +45,8 @@ type ListItemType = {
 
 type PropsType = {
   listItems: ListItemType[],
-  menuTitle: string,
-  history: {
-    push: (path: string) => void
-  }
+  menuTitle: string
+  // eslint-disable-next-line flowtype/no-weak-types
 };
 
 // TODO: If more than one of these is mounted at a time
@@ -57,7 +56,7 @@ type PropsType = {
 const DropdownMenu = (props: PropsType) => {
   const [isOpen, setIsOpen] = React.useState(false);
   const toggle = () => setIsOpen(!isOpen);
-  const { listItems, history, menuTitle } = props;
+  const { listItems, menuTitle } = props;
   DropdownMenu.handleClickOutside = () => setIsOpen(false);
   return (
     <Wrapper>
@@ -74,13 +73,7 @@ const DropdownMenu = (props: PropsType) => {
       {isOpen && (
         <ListItems>
           {listItems.map((item: ListItemType) => (
-            <ListItem
-              key={item.title}
-              onClick={() => {
-                toggle();
-                history.push(item.path);
-              }}
-            >
+            <ListItem to={item.path} key={item.title}>
               <BrandText
                 size={16}
                 color={Colors.darkNavy}

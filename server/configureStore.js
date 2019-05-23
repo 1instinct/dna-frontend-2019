@@ -1,19 +1,23 @@
 import { createStore, applyMiddleware, compose, combineReducers } from "redux";
 import { connectRoutes } from "redux-first-router";
-// import createHistory from 'history/createMemoryHistory'
 import reducers from "../src/reducers";
 
-export default async function configureStore() {
-  // const history = createHistory({ initialEntries: [req.path] })
-
+export default async function configureStore(req) {
   const routesMap = {
     ROOT: "/",
     HOME: "/home",
-    DEMO: "/demo"
-    // USER: "/user/:id"
+    DEMO: "/demo",
+    TRACKING: "/solutions/:category",
+    DELIVERY: "/solutions/:category",
+    INVENTORY: "/solutions/:category",
+    RETAIL: "/solutions/:category",
+    HOW_IT_WORKS: "/howitworks"
   };
 
-  const { reducer, middleware, enhancer, thunk } = connectRoutes(routesMap); // notice `thunk`
+  const { reducer, middleware, enhancer } = connectRoutes(routesMap, {
+    initialEntries: [req.path]
+  }); // notice `thunk`
+
   const rootReducer = combineReducers({ ...reducers, location: reducer });
   // note the order that the enhancer and middleware are composed in: enhancer first, then middleware
   const store = createStore(
@@ -23,11 +27,11 @@ export default async function configureStore() {
       applyMiddleware(middleware)
     )
   );
+  // const { location: { type, payload } } = store.getState();
 
   // using redux-thunk perhaps request and dispatch some app-wide state as well, e.g:
-  // await Promise.all([ store.dispatch(myThunkA), store.dispatch(myThunkB) ])
 
-  await thunk(store); // THE WORK: if there is a thunk for current route, it will be awaited here
+  // await thunk(store.dispatch({ type, payload })) // THE WORK: if there is a thunk for current route, it will be awaited here
 
   return store;
 }

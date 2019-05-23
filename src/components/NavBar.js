@@ -1,7 +1,6 @@
 // @flow
 /* eslint-disable flowtype/require-return-type */
 import * as React from "react";
-// import { Link } from 'react-router-dom';
 import { connect } from "react-redux";
 import styled from "styled-components";
 import BrandText from "./BrandText";
@@ -16,19 +15,19 @@ import DropdownMenu from "./DropdownMenu";
 const solutions = [
   {
     title: "Tracking",
-    path: "/solutions"
+    path: { type: "TRACKING", payload: { category: "tracking" } }
   },
   {
     title: "Delivery",
-    path: "/solutions"
+    path: { type: "DELIVERY", payload: { category: "delivery" } }
   },
   {
     title: "Inventory",
-    path: "/solutions"
+    path: { type: "INVENTORY", payload: { category: "inventory" } }
   },
   {
     title: "Retail",
-    path: "/solutions"
+    path: { type: "RETAIL", payload: { category: "retail" } }
   }
 ];
 
@@ -74,7 +73,13 @@ const NavBarLink = styled(Link)`
   text-decoration: none;
 `;
 
-class NavigationBar extends React.Component<{ pathname: string }> {
+type PropsType = {
+  // eslint-disable-next-line flowtype/no-weak-types
+  navigate: (action: any) => void,
+  pathname: string
+};
+
+class NavigationBar extends React.Component<PropsType> {
   render() {
     const { pathname } = this.props;
     const isHome = pathname === "HOME" || pathname === "ROOT";
@@ -83,7 +88,7 @@ class NavigationBar extends React.Component<{ pathname: string }> {
       <NavContainer>
         <NavBar>
           <NavBarLeft>
-            <NavBarLink to={{ type: "HOME", payload: { category: "fp" } }}>
+            <NavBarLink to={{ type: "HOME", payload: { category: "home" } }}>
               <Trans>
                 <BrandText
                   bold
@@ -97,9 +102,10 @@ class NavigationBar extends React.Component<{ pathname: string }> {
             </NavBarLink>
           </NavBarLeft>
           <NavBarRight>
+            {/* eslint-disable-next-line flowtype/no-weak-types */}
             <DropdownMenu menuTitle="Solutions" listItems={solutions} />
             <Trans>
-              <NavBarLink to={{ type: "DEMO", payload: { category: "fp" } }}>
+              <NavBarLink to={{ type: "DEMO", payload: { category: "demo" } }}>
                 <BrandText
                   size={20}
                   color={isDemo ? Colors.white : Colors.darkNavy}
@@ -110,7 +116,12 @@ class NavigationBar extends React.Component<{ pathname: string }> {
               </NavBarLink>
             </Trans>
             <Trans>
-              <NavBarLink to="/howitworks">
+              <NavBarLink
+                to={{
+                  type: "HOW_IT_WORKS",
+                  payload: { category: "howitworks" }
+                }}
+              >
                 <BrandText
                   size={20}
                   color={Colors.darkNavy}
