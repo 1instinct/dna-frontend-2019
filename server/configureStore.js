@@ -1,20 +1,10 @@
 import { createStore, applyMiddleware, compose, combineReducers } from "redux";
 import { connectRoutes } from "redux-first-router";
 import reducers from "../src/reducers";
+import { Routes } from "../src/constants";
 
 export default async function configureStore(req) {
-  const routesMap = {
-    ROOT: "/",
-    HOME: "/home",
-    DEMO: "/demo",
-    TRACKING: "/solutions/:category",
-    DELIVERY: "/solutions/:category",
-    INVENTORY: "/solutions/:category",
-    RETAIL: "/solutions/:category",
-    HOW_IT_WORKS: "/howitworks"
-  };
-
-  const { reducer, middleware, enhancer } = connectRoutes(routesMap, {
+  const { reducer, middleware, enhancer } = connectRoutes(Routes, {
     initialEntries: [req.path]
   }); // notice `thunk`
 

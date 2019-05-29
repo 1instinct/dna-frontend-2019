@@ -3,24 +3,13 @@ import { applyMiddleware, combineReducers, compose, createStore } from "redux";
 import { connectRoutes } from "redux-first-router";
 import thunk from "redux-thunk";
 import logger from "redux-logger";
+import { Routes } from "../src/constants";
 
 import reducers from "./reducers";
 
-const routesMap = {
-  ROOT: "/",
-  HOME: "/home",
-  DEMO: "/demo",
-  TRACKING: "/solutions/:category",
-  DELIVERY: "/solutions/:category",
-  INVENTORY: "/solutions/:category",
-  RETAIL: "/solutions/:category",
-  HOW_IT_WORKS: "/howitworks"
-  // USER: "/user/:id"
-};
-
 export default function configureStore(preloadedState) {
   const { reducer, middleware: routeMiddleware, enhancer } = connectRoutes(
-    routesMap
+    Routes
   );
 
   const rootReducer = combineReducers({ ...reducers, location: reducer });
