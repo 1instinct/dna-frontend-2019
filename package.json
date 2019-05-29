@@ -19,7 +19,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "lint-staged && yarn lint:css && yarn flow stop && yarn flow && yarn lint"
+      "pre-commit": "lint-staged && yarn lint:css && yarn flow && yarn lint"
     }
   },
   "lingui": {
@@ -59,6 +59,7 @@
     "babel-watch": "^7.0.0",
     "cross-env": "^5.2.0",
     "css-loader": "^2.1.1",
+    "dotenv-webpack": "^1.7.0",
     "eslint": "^5.16.0",
     "eslint-config-prettier": "^4.3.0",
     "eslint-plugin-flowtype": "^3.9.0",
@@ -87,6 +88,7 @@
     "husky": "^2.3.0",
     "react": "^16.8.6",
     "react-dom": "npm:@hot-loader/react-dom",
+    "react-helmet": "^5.2.1",
     "react-onclickoutside": "^6.8.0",
     "react-redux": "^7.0.3",
     "react-universal-component": "^4.0.0",

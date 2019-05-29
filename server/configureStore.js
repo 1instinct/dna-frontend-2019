@@ -4,7 +4,7 @@ import reducers from "../src/reducers";
 import { Routes } from "../src/constants";
 
 export default async function configureStore(req) {
-  const { reducer, middleware, enhancer } = connectRoutes(Routes, {
+  const { reducer, middleware, enhancer } = connectRoutes(Routes.RoutePaths, {
     initialEntries: [req.path]
   }); // notice `thunk`
 

@@ -9,7 +9,7 @@ import reducers from "./reducers";
 
 export default function configureStore(preloadedState) {
   const { reducer, middleware: routeMiddleware, enhancer } = connectRoutes(
-    Routes
+    Routes.RoutePaths
   );
 
   const rootReducer = combineReducers({ ...reducers, location: reducer });

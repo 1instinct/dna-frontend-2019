@@ -1,6 +1,8 @@
+/* global process */
 /* eslint-disable no-console */
 import "colors";
 import React from "react";
+import { Helmet } from "react-helmet";
 import configureStore from "./configureStore";
 import { Provider } from "react-redux";
 import { renderToString } from "react-dom/server";
@@ -21,6 +23,8 @@ export default ({ clientStats }) => async (req, res) => {
       </StyleSheetManager>
     </Provider>
   );
+
+  const helmet = Helmet.renderStatic();
   const styleTags = sheet.getStyleTags();
   sheet.seal();
 
@@ -42,8 +46,11 @@ export default ({ clientStats }) => async (req, res) => {
     `<!doctype html>
       <html>
         <head>
+          ${helmet.title.toString()}
+          ${helmet.meta.toString()}
+          ${helmet.link.toString()}
           <meta charset="utf-8">
-          <title>react-universal-component-boilerplate</title>
+          <title>${process.env.SITE_TITLE}</title>
           ${styles}
           ${styleTags}
           <script>

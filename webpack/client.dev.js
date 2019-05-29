@@ -3,6 +3,7 @@ const path = require("path");
 const webpack = require("webpack");
 const WriteFilePlugin = require("write-file-webpack-plugin"); // here so you can see what chunks are built
 const ExtractCssChunks = require("extract-css-chunks-webpack-plugin");
+const Dotenv = require("dotenv-webpack");
 
 module.exports = {
   name: "client",
@@ -47,6 +48,9 @@ module.exports = {
     extensions: [".js", ".css"]
   },
   plugins: [
+    new Dotenv({
+      systemvars: true
+    }),
     new WriteFilePlugin(),
     new ExtractCssChunks(),
     new webpack.NamedModulesPlugin(),
