@@ -3,6 +3,7 @@ const fs = require("fs");
 const path = require("path");
 const webpack = require("webpack");
 const WriteFilePlugin = require("write-file-webpack-plugin");
+const Dotenv = require("dotenv-webpack");
 
 const res = p => path.resolve(__dirname, p);
 
@@ -23,6 +24,7 @@ const externals = fs
   }, {});
 
 externals["react-dom/server"] = "commonjs react-dom/server";
+externals["react-helmet"] = "commonjs react-helmet";
 
 module.exports = {
   name: "server",
@@ -65,6 +67,9 @@ module.exports = {
     extensions: [".js", ".css", ".styl"]
   },
   plugins: [
+    new Dotenv({
+      systemvars: true
+    }),
     new WriteFilePlugin(),
     new webpack.optimize.LimitChunkCountPlugin({
       maxChunks: 1
