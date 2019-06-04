@@ -4,7 +4,7 @@
 
 1. Clone Repo
 2. _install dependencies_ \$ yarn
-3. _start dev server_ \$ yarn start
+3. _start dev server_ \$ yarn dev
 
 **COMMITTING CODE**
 The commit hook is setup to run a suite of linters to enforce code quality and style.
