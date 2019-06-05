@@ -79,6 +79,7 @@
     "stylelint-processor-styled-components": "^1.7.0",
     "url-loader": "^1.1.2",
     "webpack": "^4.32.0",
+    "webpack-dev-middleware": "^3.7.0",
     "webpack-hot-middleware": "^2.25.0",
     "webpack-hot-server-middleware": "^0.6.0",
     "write-file-webpack-plugin": "^4.5.0"
@@ -108,6 +109,8 @@
     "styled-components": "^4.2.0",
     "webpack-combine-loaders": "^2.0.4",
     "webpack-dev-middleware": "^3.7.0",
+    "webpack-hot-middleware": "^2.25.0",
+    "webpack-hot-server-middleware": "^0.6.0",
     "webpack-flush-chunks": "^2.0.3"
   }
 }
