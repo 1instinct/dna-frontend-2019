@@ -20,7 +20,7 @@
     "extract": "lingui extract",
     "compile": "lingui compile",
     "lint:css": "stylelint './src/**/*.js'",
-    "heroku-prebuild": "yarn clean --production=false"
+    "heroku-prebuild": "yarn clean"
   },
   "husky": {
     "hooks": {
