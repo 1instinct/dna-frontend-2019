@@ -44,6 +44,12 @@ const routeConfig = {
     path: "/howitworks",
     component: "about",
     pageTitle: "ABOUT"
+  },
+  SINGLE_PRODUCT: {
+    path: "/products/:productId",
+    component: "singleProduct/index",
+    pageTitle: "Single Product Page"
+    // pageTitle: async () => { const { title } = await axios.get('pageTitles'); return title;}
   }
 };
 
