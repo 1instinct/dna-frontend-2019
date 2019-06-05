@@ -1,0 +1,1 @@
+web: yarn clean && yarn start -- --port $PORT
