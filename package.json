@@ -108,6 +108,8 @@
     "redux-thunk": "^2.3.0",
     "styled-components": "^4.2.0",
     "webpack-combine-loaders": "^2.0.4",
+    "webpack-hot-middleware": "^2.25.0",
+    "webpack-hot-server-middleware": "^0.6.0",
     "webpack-dev-middleware": "^3.7.0",
     "webpack-flush-chunks": "^2.0.3"
   }
