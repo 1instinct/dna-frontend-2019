@@ -53,7 +53,7 @@ module.exports = {
     ]
   },
   resolve: {
-    extensions: [".js", ".css"]
+    extensions: [".js", ".css", ".styl"]
   },
   plugins: [
     new Dotenv({
