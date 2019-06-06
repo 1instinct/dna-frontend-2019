@@ -5,39 +5,16 @@ import * as React from "react";
 import styled from "styled-components";
 import { Trans } from "@lingui/macro";
 import BrandText from "./BrandText";
-import { Colors, Images } from "../constants";
+import { Colors } from "../constants";
+import type { ProductsArrayType, ProductType } from "../types/products";
 
-const topCategories = [
-  {
-    title: "Dab Pens",
-    image: Images.Cat
-  },
-  {
-    title: "Bongs",
-    image:
-      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQzqHHuuXRYm7FIf9e9b-YMxg8QsMGZxrHHIuphZqVJE4-VjpMB"
-  },
-  {
-    title: "Flower",
-    image:
-      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTf8C51_toDgtEXkFQZ6IJT4mMaxuw0jHrIg21WPa958zWxH-KK3g"
-  },
-  {
-    title: "Cases",
-    image:
-      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR8a1KPbUrXSwYGxAfkb-KZ8wSZggdmrVI2LQmEYNsgrc23eBgr"
-  },
-  {
-    title: "Grinders",
-    image:
-      "https://cdn.shopify.com/s/files/1/1005/6270/products/1_edc620fc-07a7-4070-a7c8-82c175274c40_2048x.jpg?v=1509496027"
-  },
-  {
-    title: "Pipes",
-    image:
-      "https://cdn.shopify.com/s/files/1/0010/5237/7149/products/sp-12.5cm-037_2_Color_changing_pipe_glass_pipe_spoon_pipe_weed_bowl_bong_Fumed_Purple_Color_Changing_Glass_Spoon_Pipe_w_Glass_Marble.jpg?v=1542091342"
-  }
-];
+import Link from "redux-first-router-link";
+import { connect } from "react-redux";
+import type { StateType } from "../types/redux";
+
+type PropsType = {
+  products: ProductsArrayType
+};
 
 const Container = styled.div`
   flex: 1;
@@ -92,9 +69,19 @@ const FeaturedItem = styled.div`
   cursor: pointer;
 `;
 
-const ProductItem = styled(FeaturedItem)`
+const ProductItem = styled(Link)`
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  cursor: pointer;
   height: 150px;
   background-color: ${Colors.white};
+`;
+
+const ProductLink = styled(ProductItem)`
+  text-decoration: none;
   cursor: pointer;
 `;
 
@@ -116,7 +103,7 @@ const Title = styled.div`
   border-bottom: 1px solid ${Colors.darkNavy};
 `;
 
-class Home extends React.Component<{}, {}> {
+class Home extends React.Component<PropsType> {
   render() {
     return (
       <Container>
@@ -140,16 +127,20 @@ class Home extends React.Component<{}, {}> {
         <Title>
           <Trans>
             <BrandText color={Colors.darkNavy} bold size={25}>
-              Top Categories
+              Top Products
             </BrandText>
           </Trans>
         </Title>
+
         <ProductContainer>
-          {topCategories.map((item: { title: string, image: string }) => (
-            <ProductItem key={item.title}>
+          {this.props.products.map((item: ProductType) => (
+            <ProductLink
+              key={item.id}
+              to={{ type: "SINGLE_PRODUCT", payload: { productId: item.id } }}
+            >
               <ItemImage src={item.image} />
               {item.title}
-            </ProductItem>
+            </ProductLink>
           ))}
         </ProductContainer>
       </Container>
@@ -157,4 +148,8 @@ class Home extends React.Component<{}, {}> {
   }
 }
 
-export default Home;
+const mapStateToProps = ({ products: { products } }: StateType) => ({
+  products: Object.values(products)
+});
+
+export default connect(mapStateToProps)(Home);
