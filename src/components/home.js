@@ -5,13 +5,12 @@ import * as React from "react";
 import styled from "styled-components";
 import { Trans } from "@lingui/macro";
 import BrandText from "./BrandText";
-import { Colors } from "../constants";
+import { Colors, Images } from "../constants";
 
 const topCategories = [
   {
     title: "Dab Pens",
-    image:
-      "https://www.migvapor.com/media/catalog/product/cache/1/small_image/430x220/9df78eab33525d08d6e5fb8d27136e95/b/u/bugrx.jpg"
+    image: Images.Cat
   },
   {
     title: "Bongs",
