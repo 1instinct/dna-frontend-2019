@@ -25,6 +25,14 @@ module.exports = {
         use: "babel-loader"
       },
       {
+        test: /\.(gif|jpe?g|png|ico)$/,
+        loader: "url-loader?limit=10000"
+      },
+      {
+        test: /\.(otf|eot|svg|ttf|woff|woff2).*$/,
+        loader: "url-loader?limit=10000"
+      },
+      {
         test: /\.styl$/,
         exclude: /node_modules/,
         use: [
