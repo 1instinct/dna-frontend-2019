@@ -1,15 +1,20 @@
-import { LOGIN } from "../actions/auth";
+// @flow
+import { AuthActions } from "../types/auth";
+import type { AuthStateType, AuthActionsType } from "../types/auth";
 
-const intialState = {
-  loggedIn: false
+const initialState = {
+  token: null
 };
 
-export default (state = intialState, action) => {
+export default (
+  state: AuthStateType = initialState,
+  action: AuthActionsType
+): AuthStateType => {
   switch (action.type) {
-    case LOGIN:
+    case AuthActions.LOGIN_CLIENT:
       return {
         ...state,
-        loggedIn: !state.loggedIn
+        token: action.payload
       };
     default:
       return state;
