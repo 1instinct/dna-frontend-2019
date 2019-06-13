@@ -4,6 +4,7 @@ const webpack = require("webpack");
 const WriteFilePlugin = require("write-file-webpack-plugin"); // here so you can see what chunks are built
 const ExtractCssChunks = require("extract-css-chunks-webpack-plugin");
 const Dotenv = require("dotenv-webpack");
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = {
   name: "client",
@@ -49,11 +50,27 @@ module.exports = {
             }
           }
         ]
+      },
+      {
+        test: /\.scss$/,
+        use: [
+          MiniCssExtractPlugin.loader,
+          {
+            loader: 'css-loader'
+          },
+          {
+            loader: 'sass-loader',
+            options: {
+              sourceMap: true,
+              // options...
+            }
+          }
+        ]
       }
     ]
   },
   resolve: {
-    extensions: [".js", ".css", ".styl"]
+    extensions: [".js", ".css", ".styl", ".scss"]
   },
   plugins: [
     new Dotenv({
@@ -61,6 +78,9 @@ module.exports = {
     }),
     new WriteFilePlugin(),
     new ExtractCssChunks(),
+    new MiniCssExtractPlugin({
+      filename: 'css/[name].bundle.css'
+    }),
     new webpack.NamedModulesPlugin(),
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NoEmitOnErrorsPlugin(),

@@ -4,6 +4,7 @@ const path = require("path");
 const webpack = require("webpack");
 const WriteFilePlugin = require("write-file-webpack-plugin");
 const Dotenv = require("dotenv-webpack");
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 const res = p => path.resolve(__dirname, p);
 
@@ -68,17 +69,36 @@ module.exports = {
             loader: "stylus-loader"
           }
         ]
+      },
+      {
+        test: /\.scss$/,
+        use: [
+          MiniCssExtractPlugin.loader,
+          {
+            loader: 'css-loader'
+          },
+          {
+            loader: 'sass-loader',
+            options: {
+              sourceMap: true,
+              // options...
+            }
+          }
+        ]
       }
     ]
   },
   resolve: {
-    extensions: [".js", ".css", ".styl"]
+    extensions: [".js", ".css", ".styl", ".scss"]
   },
   plugins: [
     new Dotenv({
       systemvars: true
     }),
     new WriteFilePlugin(),
+    new MiniCssExtractPlugin({
+      filename: 'css/[name].bundle.css'
+    }),
     new webpack.optimize.LimitChunkCountPlugin({
       maxChunks: 1
     }),
