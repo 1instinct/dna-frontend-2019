@@ -37,10 +37,10 @@ export default ({ clientStats }) => async (req, res) => {
   const preloadedState = store.getState();
   console.log("preloadedState: ", preloadedState);
 
-  console.log("PATH", req.path);
-  console.log("DYNAMIC CHUNK NAMES RENDERED", chunkNames);
-  console.log("SCRIPTS SERVED", scripts);
-  console.log("STYLESHEETS SERVED", stylesheets);
+  // console.log("PATH", req.path);
+  // console.log("DYNAMIC CHUNK NAMES RENDERED", chunkNames);
+  // console.log("SCRIPTS SERVED", scripts);
+  // console.log("STYLESHEETS SERVED", stylesheets);
 
   res.send(
     `<!doctype html>

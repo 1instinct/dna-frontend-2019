@@ -4,6 +4,7 @@ import { connectRoutes } from "redux-first-router";
 import thunk from "redux-thunk";
 import logger from "redux-logger";
 import { Routes } from "../src/constants";
+import { initSocket } from "./actions/pusher";
 
 import reducers from "./reducers";
 
@@ -30,6 +31,6 @@ export default function configureStore(preloadedState) {
 
   // const { location: { type, payload } } = store.getState();
   // store.dispatch({ type, payload });
-
+  initSocket(store.dispatch);
   return { store };
 }
