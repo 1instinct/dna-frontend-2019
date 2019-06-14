@@ -131,6 +131,22 @@ class NavigationBar extends React.Component<PropsType> {
                 </BrandText>
               </NavBarLink>
             </Trans>
+            <Trans>
+            <NavBarLink
+              to={{
+                type: "CART",
+                payload: { category: "cart" }
+              }}
+            >
+              <BrandText
+                size={20}
+                color={Colors.darkNavy}
+                hoverColor={Colors.white}
+              >
+                Cart
+              </BrandText>
+            </NavBarLink>
+          </Trans>
           </NavBarRight>
         </NavBar>
       </NavContainer>

@@ -41,7 +41,7 @@ const routeConfig = {
     pageTitle: "HOW IT WORKS"
   },
   ABOUT: {
-    path: "/howitworks",
+    path: "/about",
     component: "about",
     pageTitle: "ABOUT"
   },
@@ -50,6 +50,11 @@ const routeConfig = {
     component: "singleProduct/index",
     pageTitle: "Single Product Page"
     // pageTitle: async () => { const { title } = await axios.get('pageTitles'); return title;}
+  },
+  CART: {
+    path: "/cart",
+    component: "cart/cart",
+    pageTitle: "Cart"
   }
 };
 
