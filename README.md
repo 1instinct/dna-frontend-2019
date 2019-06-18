@@ -1,1 +1,25 @@
-# dna-frontend
+# Material Instinct - DNA Frontend (2019)
+
+- <del>Flow / Type Checking<del>
+- <del>React<del>
+- <del>Express (SSR)<del>
+- <del>Redux (project specific data mgmt)<del>
+- Pusher / API Integration
+- <del>Styled Components<del>
+- Moving Letters
+- UI Sounds (proprietary: "nom install beeper")
+- Maps
+- File upload
+- Form validation
+- Animations / Transitions
+- Gestures
+- UI Alerts
+- Uptime Monitoring
+- Twilio
+- Unit Testing
+- Chat widget
+- Chatbot
+- Feature Detection
+- Benchmarking
+- Header tag injection (Helmet)
+- Secrets management
