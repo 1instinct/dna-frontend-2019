@@ -87,6 +87,7 @@
     "@babel/preset-react": "^7.0.0",
     "@babel/runtime": "^7.4.5",
     "@lingui/react": "^2.8.1",
+    "@livechat/ui-kit": "^0.4.0-5",
     "@spree/storefront-api-v2-sdk": "^3.1.1",
     "babel-core": "^7.0.0-bridge.0",
     "babel-eslint": "^10.0.1",

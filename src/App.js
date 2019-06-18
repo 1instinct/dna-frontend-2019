@@ -7,6 +7,7 @@ import { connect } from "react-redux";
 // import { pages, nextIndex, indexFromPath } from '../utils'
 import UniversalComponent from "./UniversalComponent";
 import NavBar from "./components/NavBar";
+import Chat from "./components/chat";
 
 type PropsType = {
   page: string
@@ -36,6 +37,7 @@ class App extends React.Component<PropsType, StateType> {
           onAfter={this.afterChange}
           onError={this.handleError}
         />
+        <Chat />
       </div>
     );
   }
