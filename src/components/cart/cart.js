@@ -29,6 +29,7 @@ class Cart extends React.Component<PropsType> {
             <div className="column is-4"><h5>Cart Subtotal</h5></div>
             <div className="column is-2"><h5>$ 600.00</h5></div>
           </div>
+          <div className="is-divider"></div>
           <div className="columns">
             <div className="column is-6">
               <h4>Shipping:</h4>
@@ -50,6 +51,7 @@ class Cart extends React.Component<PropsType> {
               </div>
               <div className="button is-medium is-primary m-t-lg">Calculate shipping</div>
             </div>
+            <div className="is-divider-vertical"></div>
             <div className="column is-6">
               <h4>Address:</h4>
               <div className="m-t-sm">
@@ -69,6 +71,7 @@ class Cart extends React.Component<PropsType> {
               <div className="button is-medium is-primary m-t-sm">Add a new address</div>
             </div>
           </div>
+          <div className="is-divider"></div>
           <div className="columns">
             <div className="column has-text-centered">
               <h4>Cart subtotal (14 items)</h4>
