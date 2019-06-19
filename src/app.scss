@@ -9,12 +9,14 @@ $pink: #FA7C91;
 $brown: #757763;
 $beige-light: #D0D1CD;
 $beige-lighter: #EFF0EB;
+$grey-lighter: #f1f1f1;
 
 // Update Bulma's global variables
 $family-sans-serif: "Nunito", sans-serif;
 $grey-dark: $brown;
 $grey-light: $beige-light;
 $primary: $purple;
+$secondary: $pink;
 $link: $pink;
 $widescreen-enabled: false;
 $fullhd-enabled: false;
@@ -25,8 +27,13 @@ $control-border-width: 2px;
 $input-border-color: transparent;
 $input-shadow: none;
 
+// Some configs
+$box-background-color: $beige-lighter;
+
 // Import only what you need from Bulma
+
 @import "../node_modules/bulma/bulma.sass";
+@import '../node_modules/bulma-extensions/bulma-divider/dist/css/bulma-divider.sass';
 
 // Import fontawesome
 $fa-font-path: "../node_modules/font-awesome/fonts";

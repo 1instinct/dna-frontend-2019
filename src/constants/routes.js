@@ -55,6 +55,11 @@ const routeConfig = {
     path: "/cart",
     component: "cart/cart",
     pageTitle: "Cart"
+  },
+  CHECKOUT: {
+    path: "/checkout",
+    component: "checkout/checkout",
+    pageTitle: "Checkout"
   }
 };
 
