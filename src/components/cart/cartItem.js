@@ -23,16 +23,22 @@ class CartItem extends React.Component<PropsType> {
               </div>
               <div className="columns is-centered">
                 <div className="column">
-                  <div>
-                    <span className="icon has-text-danger"><i className="fas fa-home"></i></span>
+                  <div className='has-text-centered'>
+                    <span className="icon"><i className="fas fa-lg fa-trash-alt"></i></span>
                   </div>
-                  <div>Delete</div>
+                  <div className='has-text-centered'>Delete</div>
                 </div>
                 <div className="column">
-                  Save for later
+                  <div className='has-text-centered'>
+                    <span className="icon is-medium"><i className="far fa-lg fa-bookmark"></i></span>
+                  </div>
+                  <div className='has-text-centered'>Save for later</div>
                 </div>
                 <div className="column">
-                  Add to favorites
+                  <div className='has-text-centered'>
+                    <span className="icon"><i className="far fa-lg fa-heart"></i></span>
+                  </div>
+                  <div className='has-text-centered'>Add to favorites</div>
                 </div>
               </div>
             </div>
