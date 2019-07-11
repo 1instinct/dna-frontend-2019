@@ -13,7 +13,7 @@ const UniversalComponent = universal(({ page }) => page(), {
   onError: error => {
     throw error;
   },
-  minDelay: 600,
+  minDelay: 0,
   loading: Loading,
   error: NotFound,
   ignoreBabelRename: true

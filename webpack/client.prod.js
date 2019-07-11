@@ -1,27 +1,20 @@
 /* global require module __dirname */
 const path = require("path");
 const webpack = require("webpack");
-const WriteFilePlugin = require("write-file-webpack-plugin"); // here so you can see what chunks are built
 const ExtractCssChunks = require("extract-css-chunks-webpack-plugin");
-const Dotenv = require("dotenv-webpack");
 
 module.exports = {
   name: "client",
   target: "web",
-  devtool: "inline-source-map",
-  mode: "development",
-  entry: [
-    "webpack-hot-middleware/client?path=/__webpack_hmr&timeout=20000&reload=false&quiet=false&noInfo=false",
-    "react-hot-loader/patch",
-    path.resolve(__dirname, "../src/index.js")
-  ],
+  devtool: "source-map",
+  entry: [path.resolve(__dirname, "../src/index.js")],
   output: {
-    filename: "[name].js",
-    chunkFilename: "[name].chunk.js",
+    filename: "[name].[chunkhash].js",
+    chunkFilename: "[name].[chunkhash].js",
     path: path.resolve(__dirname, "../buildClient"),
     publicPath: "/static/"
   },
-  cache: false,
+  stats: "verbose",
   module: {
     rules: [
       {
@@ -47,27 +40,27 @@ module.exports = {
               modules: true,
               localIdentName: "[name]__[local]--[hash:base64:5]"
             }
+          },
+          {
+            loader: "stylus-loader"
           }
         ]
       }
     ]
   },
+  mode: "development",
   resolve: {
     extensions: [".js", ".css", ".styl"]
   },
   plugins: [
-    new Dotenv({
-      systemvars: true
-    }),
-    new WriteFilePlugin(),
     new ExtractCssChunks(),
-    new webpack.NamedModulesPlugin(),
-    new webpack.HotModuleReplacementPlugin(),
-    new webpack.NoEmitOnErrorsPlugin(),
+    new webpack.optimize.ModuleConcatenationPlugin(),
+    new webpack.optimize.OccurrenceOrderPlugin(),
     new webpack.DefinePlugin({
       "process.env": {
-        NODE_ENV: JSON.stringify("development")
+        NODE_ENV: JSON.stringify("production")
       }
-    })
+    }),
+    new webpack.HashedModuleIdsPlugin() // not needed for strategy to work (just good practice)
   ]
 };

@@ -8,23 +8,27 @@ const webpackHotMiddleware = require("webpack-hot-middleware");
 const webpackHotServerMiddleware = require("webpack-hot-server-middleware");
 const clientConfig = require("../webpack/client.dev");
 const serverConfig = require("../webpack/server.dev");
-// const clientConfigProd = require('../webpack/client.prod')
-// const serverConfigProd = require('../webpack/server.prod')
+const clientConfigProd = require("../webpack/client.prod");
+const serverConfigProd = require("../webpack/server.prod");
 
 const { publicPath } = clientConfig.output;
-// const outputPath = clientConfig.output.path
+const outputPath = clientConfig.output.path;
 const DEV = process.env.NODE_ENV === "development";
 const app = express();
 app.use(noFavicon());
 
 let isBuilt = false;
 
+const PORT = process.env.PORT || 3000;
+
 const done = () =>
   !isBuilt &&
-  app.listen(3000, () => {
+  app.listen(PORT, () => {
     isBuilt = true;
     // eslint-disable-next-line no-console
-    console.log("BUILD COMPLETE -- Listening @ http://localhost:3000".magenta);
+    console.log(
+      `BUILD COMPLETE -- Listening @ http://localhost:${PORT}`.magenta
+    );
   });
 
 if (DEV) {
@@ -39,11 +43,11 @@ if (DEV) {
 
   devMiddleware.waitUntilValid(done);
 } else {
-  // webpack([clientConfigProd, serverConfigProd]).run((err, stats) => {
-  //     const clientStats = stats.toJson().children[0]
-  //     const serverRender = require('../buildServer/main.js').default
-  //     app.use(publicPath, express.static(outputPath))
-  //     app.use(serverRender({ clientStats }))
-  //     done()
-  // })
+  webpack([clientConfigProd, serverConfigProd]).run((err, stats) => {
+    const clientStats = stats.toJson().children[0];
+    const serverRender = require("../buildServer/main.js").default;
+    app.use(publicPath, express.static(outputPath));
+    app.use(serverRender({ clientStats }));
+    done();
+  });
 }

@@ -9,7 +9,8 @@
         "@babel/plugin-proposal-class-properties",
         "universal-import",
         "babel-plugin-styled-components",
-        "macros"
+        "macros",
+        "@babel/transform-runtime"
     ],
     "env": {
         "development": {
