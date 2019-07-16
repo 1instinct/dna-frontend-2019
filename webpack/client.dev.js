@@ -31,11 +31,20 @@ module.exports = {
       },
       {
         test: /\.(gif|jpe?g|png|ico)$/,
-        loader: "url-loader?limit=10000"
+        loader: "url-loader?limit=100000"
       },
       {
-        test: /\.(otf|eot|svg|ttf|woff|woff2).*$/,
-        loader: "url-loader?limit=10000"
+        test: /\.(otf|eot|svg|ttf|woff|woff2)$/,
+        use: [
+          {
+            loader: "file-loader",
+            options: {
+              name: "[name].[ext]",
+              outputPath: "fonts/",
+              limit: 100000
+            }
+          }
+        ]
       },
       {
         test: /\.styl$/,
