@@ -128,6 +128,7 @@ class Home extends React.Component<PropsType> {
           <Trans>
             <BrandText color={Colors.darkNavy} bold size={25}>
               Top Products
+              <i className="bts bt-spinner bt-spin" />
             </BrandText>
           </Trans>
         </Title>
