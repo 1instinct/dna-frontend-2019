@@ -107,6 +107,16 @@ class Home extends React.Component<PropsType> {
   render() {
     return (
       <Container>
+        <div>
+          <h1 className="googleFont">
+            <em>Hello I am a googleFont</em>
+          </h1>
+          <p className="googleFont">Hello I am a googleFont</p>
+          <h1 className="typekitFont">
+            <em>Hello I am a typeKit font</em>
+          </h1>
+          <p className="typekitFont">Hello I am a typeKit font</p>
+        </div>
         <Title>
           <Trans>
             <BrandText color={Colors.darkNavy} bold size={25}>
