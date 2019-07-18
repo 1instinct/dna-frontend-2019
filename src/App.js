@@ -11,14 +11,17 @@ import styled from "styled-components";
 import UniversalComponent from "./UniversalComponent";
 import NavBar from "./components/NavBar";
 import { push as Menu } from "react-burger-menu";
-import { toggleSideMenu } from "../src/actions/ui";
+import { toggleSideMenu, toggleCartMenu } from "../src/actions/ui";
 
 import SideMenu from "./components/SideMenu/";
+import CartMenu from "./components/CartMenu";
 
 type PropsType = {
   page: string,
   _toggleSideMenu: (open: boolean) => void,
-  isOpen: boolean
+  _toggleCartMenu: (open: boolean) => void,
+  isOpen: boolean,
+  cartIsOpen: boolean
 };
 
 type StateType = {
@@ -44,7 +47,13 @@ const Container = styled.div`
 
 class App extends React.Component<PropsType, StateType> {
   render(): React.Node {
-    const { page = "home", isOpen, _toggleSideMenu } = this.props;
+    const {
+      page = "home",
+      isOpen,
+      cartIsOpen,
+      _toggleSideMenu,
+      _toggleCartMenu
+    } = this.props;
     // const { done, loading } = this.state;
     // const buttonClass = `${styles[page]} ${loadingClass}`
 
@@ -57,8 +66,21 @@ class App extends React.Component<PropsType, StateType> {
           customBurgerIcon={false}
           customCrossIcon={false}
           onStateChange={({ isOpen: open }) => _toggleSideMenu(open)}
+          animation={"reveal"}
         >
           <SideMenu />
+        </Menu>
+        <Menu
+          right
+          style={styles}
+          isOpen={cartIsOpen}
+          pageWrapId="panel"
+          customBurgerIcon={false}
+          customCrossIcon={false}
+          onStateChange={({ isOpen: open }) => _toggleCartMenu(open)}
+          animation={"reveal"}
+        >
+          <CartMenu />
         </Menu>
         <div id="panel">
           <NavBar />
@@ -118,16 +140,18 @@ const mapStateToProps = ({
   ui
 }: {
   page: string,
-  ui: { sideMenuIsOpen: boolean }
-}): { page: string, isOpen: boolean } => ({
+  ui: { sideMenuIsOpen: boolean, cartMenuIsOpen: boolean }
+}): { page: string, isOpen: boolean, cartIsOpen: boolean } => ({
   page,
-  isOpen: ui.sideMenuIsOpen
+  isOpen: ui.sideMenuIsOpen,
+  cartIsOpen: ui.cartMenuIsOpen
 });
 
 const mapDispatchToProps = dispatch =>
   bindActionCreators(
     {
-      _toggleSideMenu: toggleSideMenu
+      _toggleSideMenu: toggleSideMenu,
+      _toggleCartMenu: toggleCartMenu
     },
     dispatch
   );
