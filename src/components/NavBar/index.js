@@ -11,6 +11,7 @@ import DropdownMenu from "../DropdownMenu";
 
 import { toggleBanner } from "../../actions/ui";
 import HamburgerMenuButton from "./HamburgerMenuButton";
+import CartMenuButton from "./CartMenuButton";
 
 // dropdown items
 // tracking, delivery, inventory, & retail
@@ -135,6 +136,7 @@ class NavigationBar extends React.Component<PropsType> {
                 </BrandText>
               </NavBarLink>
             </Trans>
+            <CartMenuButton />
           </NavBarRight>
         </NavBar>
       </NavContainer>
