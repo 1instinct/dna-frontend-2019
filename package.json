@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "engines": {
     "node": "10.16.0",
-    "yarn": "1.16.0"
+    "yarn": "1.17.3"
   },
   "main": "index.js",
   "license": "MIT",

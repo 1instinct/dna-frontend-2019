@@ -3,7 +3,7 @@ import * as React from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import type { ProductType } from "../../types/products";
-import type { StateType } from "../../types/redux";
+import type { ReduxStateType, DispatchType } from "../../types/redux";
 import { updateProductQuantity } from "../../actions/products";
 
 import styled from "styled-components";
@@ -125,9 +125,9 @@ const RelatedLabel = styled.span`
   margin-left: 10%;
 `;
 
-const RelatedProduct = styled.div`
-  flex: 1;
-`;
+// const RelatedProduct = styled.div`
+//   flex: 1;
+// `;
 
 // todo
 const ProductLink = styled(Link)`
@@ -141,7 +141,7 @@ const ProductThumbnail = styled.img`
 `;
 
 // eslint-disable-next-line react/prop-types
-class SingleProduct extends React.Component<PropsType, StateType> {
+class SingleProduct extends React.Component<PropsType> {
   render(): React.Node {
     const { singleProduct = {}, _updateProductQuantity, products } = this.props;
     const subtotal =
@@ -185,13 +185,17 @@ class SingleProduct extends React.Component<PropsType, StateType> {
             <QuantityContainer>
               <QuantityControls>
                 <QuantityButton
-                  onClick={() => _updateProductQuantity(singleProduct.id, -1)}
+                  onClick={(): void =>
+                    _updateProductQuantity(singleProduct.id, -1)
+                  }
                 >
                   -
                 </QuantityButton>
                 <h3>{singleProduct.quantity}</h3>
                 <QuantityButton
-                  onClick={() => _updateProductQuantity(singleProduct.id, +1)}
+                  onClick={(): void =>
+                    _updateProductQuantity(singleProduct.id, +1)
+                  }
                 >
                   +
                 </QuantityButton>
@@ -207,21 +211,23 @@ class SingleProduct extends React.Component<PropsType, StateType> {
             <RelatedLabel>Related</RelatedLabel>
           </h2>
           <RelatedContainer>
-            {products.map((product, i) => {
-              return (
-                <div key={product.id}>
-                  <ProductLink
-                    to={{
-                      type: "SINGLE_PRODUCT",
-                      payload: { productId: product.id }
-                    }}
-                  >
-                    <h4>{product.title}</h4>
-                    <ProductThumbnail src={product.image} />
-                  </ProductLink>
-                </div>
-              );
-            })}
+            {products.map(
+              (product: ProductType): React.Node => {
+                return (
+                  <div key={product.id}>
+                    <ProductLink
+                      to={{
+                        type: "SINGLE_PRODUCT",
+                        payload: { productId: product.id }
+                      }}
+                    >
+                      <h4>{product.title}</h4>
+                      <ProductThumbnail src={product.image} />
+                    </ProductLink>
+                  </div>
+                );
+              }
+            )}
           </RelatedContainer>
         </section>
       </ProductPageContainer>
@@ -229,16 +235,24 @@ class SingleProduct extends React.Component<PropsType, StateType> {
   }
 }
 
-const mapStateToProps = ({ location, products }: StateType): any => {
+const mapStateToProps = ({
+  location,
+  products
+}: ReduxStateType): ReduxStateType => {
   return {
     singleProduct: products.products[location.payload.productId],
     products: products.productsList.filter(
-      (product: ProductType) => product.id !== location.payload.productId
+      (product: ProductType): boolean =>
+        product.id !== location.payload.productId
     )
   };
 };
 
-const mapDispatchToProps = dispatch =>
+const mapDispatchToProps = (
+  dispatch: DispatchType
+): {
+  _updateProductQuantity: () => void
+} =>
   bindActionCreators(
     {
       _updateProductQuantity: updateProductQuantity

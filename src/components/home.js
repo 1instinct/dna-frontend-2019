@@ -1,5 +1,4 @@
 // @flow
-/* eslint-disable flowtype/require-return-type */
 
 import * as React from "react";
 import styled from "styled-components";
@@ -10,7 +9,7 @@ import type { ProductsArrayType, ProductType } from "../types/products";
 
 import Link from "redux-first-router-link";
 import { connect } from "react-redux";
-import type { StateType } from "../types/redux";
+import type { ReduxStateType } from "../types/redux";
 
 type PropsType = {
   products: ProductsArrayType
@@ -104,7 +103,7 @@ const Title = styled.div`
 `;
 
 class Home extends React.Component<PropsType> {
-  render() {
+  render(): React.Node {
     return (
       <Container>
         <Title>
@@ -133,23 +132,31 @@ class Home extends React.Component<PropsType> {
         </Title>
 
         <ProductContainer>
-          {this.props.products.map((item: ProductType) => (
-            <ProductLink
-              key={item.id}
-              to={{ type: "SINGLE_PRODUCT", payload: { productId: item.id } }}
-            >
-              <ItemImage src={item.image} />
-              {item.title}
-            </ProductLink>
-          ))}
+          {this.props.products.map(
+            (item: ProductType): React.Node => (
+              <ProductLink
+                key={item.id}
+                to={{ type: "SINGLE_PRODUCT", payload: { productId: item.id } }}
+              >
+                <ItemImage src={item.image} />
+                {item.title}
+              </ProductLink>
+            )
+          )}
         </ProductContainer>
       </Container>
     );
   }
 }
 
-const mapStateToProps = ({ products: { products } }: StateType) => ({
-  products: Object.values(products)
-});
+const mapStateToProps = ({
+  products: { products }
+}: ReduxStateType): { products: ProductType[] } => {
+  // eslint-disable-next-line flowtype/no-weak-types
+  const p = ((Object.values(products): any): ProductsArrayType);
+  return {
+    products: p
+  };
+};
 
 export default connect(mapStateToProps)(Home);

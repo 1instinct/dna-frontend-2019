@@ -1,19 +1,32 @@
-export const GET_PRODUCT_ID = "products/GET_PRODUCT_ID";
-export const UPDATE_PRODUCT_QUANTITY = "products/UPDATE_PRODUCT_QUANTITY";
+// @flow
+import type { ThunkType, DispatchType, GetStateType } from "../types/redux";
+import type { ProductType } from "../types/products";
+import { ProductActions } from "../types/products";
 
-export const getProductId = id => (dispatch, getState) => {
+export const getProductId = (id: string): ThunkType => (
+  dispatch: DispatchType,
+  getState: GetStateType
+) => {
   const { products } = getState();
-  dispatch({ type: GET_PRODUCT_ID, payload: products[id] });
+  const product: ProductType = products[id];
+  dispatch({ type: ProductActions.GET_PRODUCT_ID, product });
 };
 
-export const updateProductQuantity = (id, change) => (dispatch, getState) => {
+export const updateProductQuantity = (
+  id: string,
+  change: number
+): ThunkType => (dispatch: DispatchType, getState: GetStateType) => {
   const {
     products: { products }
   } = getState();
-  const product = { ...products[id] };
+  const product: ProductType = { ...products[id] };
 
   product.quantity += change;
   if (product.quantity < 0) product.quantity = 0;
 
-  dispatch({ type: UPDATE_PRODUCT_QUANTITY, productId: product.id, product });
+  dispatch({
+    type: ProductActions.UPDATE_PRODUCT_QUANTITY,
+    productId: product.id,
+    product: product
+  });
 };

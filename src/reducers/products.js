@@ -1,7 +1,9 @@
-import { GET_PRODUCT_ID, UPDATE_PRODUCT_QUANTITY } from "../actions/products";
+// @flow
+import { ProductActions } from "../types/products";
+import type { ProductActionsType, ProductType } from "../types/products";
 // import { Images } from '../constants';
 
-const products = {
+const products: { [string]: ProductType } = {
   product_1: {
     title: "Lafayette",
     subtitle: "Round Engagement Ring",
@@ -86,14 +88,19 @@ const initialState = {
   singleProduct: {}
 };
 
-export default (state = initialState, action) => {
+type ProductsStateType = typeof initialState;
+
+export default (
+  state: ProductsStateType = initialState,
+  action: ProductActionsType
+): ProductsStateType => {
   switch (action.type) {
-    case GET_PRODUCT_ID:
+    case ProductActions.GET_PRODUCT_ID:
       return {
         ...state,
-        singleProduct: action.payload
+        singleProduct: action.product
       };
-    case UPDATE_PRODUCT_QUANTITY:
+    case ProductActions.UPDATE_PRODUCT_QUANTITY:
       return {
         ...state,
         products: { ...state.products, [action.productId]: action.product },
