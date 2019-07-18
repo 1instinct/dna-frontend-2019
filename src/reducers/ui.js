@@ -1,8 +1,14 @@
 // @flow
-import { TOGGLE_SIDE_MENU, TOGGLE_NAV_BANNER, SET_ROUTE } from "../actions/ui";
+import {
+  TOGGLE_SIDE_MENU,
+  TOGGLE_CART_MENU,
+  TOGGLE_NAV_BANNER,
+  SET_ROUTE
+} from "../actions/ui";
 
 const initialState = {
   sideMenuIsOpen: false,
+  cartMenuIsOpen: false,
   navBanner: true
 };
 
@@ -18,6 +24,11 @@ export default (
       return {
         ...state,
         sideMenuIsOpen: action.payload || !state.sideMenuIsOpen
+      };
+    case TOGGLE_CART_MENU:
+      return {
+        ...state,
+        cartMenuIsOpen: action.payload || !state.cartMenuIsOpen
       };
     case TOGGLE_NAV_BANNER:
       return {
