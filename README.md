@@ -26,9 +26,12 @@
 
 **GETTING STARTED**
 
+Prerequisites: YVM & NVM (for specific node/yarn versions)
+
 1. Clone Repo
-2. _install dependencies_ \$ yarn
-3. _start dev server_ \$ yarn dev
+1. Choose correct Node / Yarn versions: `nvm use 10.16.2`
+1. _install dependencies_ \$ yarn
+1. _start dev server_ \$ yarn start:dev
 
 **COMMITTING CODE**
 The commit hook is setup to run a suite of linters to enforce code quality and style.
