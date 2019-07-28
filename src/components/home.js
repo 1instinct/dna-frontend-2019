@@ -4,10 +4,11 @@
 import * as React from "react";
 import styled from "styled-components";
 import { Trans } from "@lingui/macro";
+import { bindActionCreators } from "redux";
 import BrandText from "./BrandText";
 import { Colors } from "../constants";
 import type { ProductsArrayType, ProductType } from "../types/products";
-
+import { getProducts } from "../actions/products";
 import Link from "redux-first-router-link";
 import { connect } from "react-redux";
 import type { StateType } from "../types/redux";
@@ -104,6 +105,10 @@ const Title = styled.div`
 `;
 
 class Home extends React.Component<PropsType> {
+  componentDidMount() {
+    const { _getProducts } = this.props;
+    _getProducts();
+  }
   render() {
     return (
       <Container>
@@ -152,4 +157,15 @@ const mapStateToProps = ({ products: { products } }: StateType) => ({
   products: Object.values(products)
 });
 
-export default connect(mapStateToProps)(Home);
+const mapDispatchToProps = dispatch =>
+  bindActionCreators(
+    {
+      _getProducts: getProducts
+    },
+    dispatch
+  );
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Home);
