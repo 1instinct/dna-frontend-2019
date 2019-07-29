@@ -37,16 +37,16 @@ class SingleProduct extends React.Component<PropsType, StateType> {
           <div className="columns">
             <div className="column is-6">
               <figure className="image is-square">
-                <img src="https://bulma.io/images/placeholders/480x480.png"></img>
+                <img src={ singleProduct.image }></img>
               </figure>
             </div>
             <div className="column is-6">
               <div className="content">
-                <h1>{ product.name }</h1>
-                <h3>{ product.subtitle }</h3>
-                <p>{ product.description }</p>
+                <h1>{ singleProduct.title }</h1>
+                <h3>{ singleProduct.subtitle }</h3>
+                <p>{ singleProduct.description }</p>
               </div>
-              <h1>${ product.price.toFixed(2) }</h1>
+              <h1>${ singleProduct.price }</h1>
               <div className="columns is-centered m-t-md">
                 <div className="column">
                   <div className='has-text-centered'>
@@ -69,20 +69,25 @@ class SingleProduct extends React.Component<PropsType, StateType> {
               </div>
               <div className="level">
                 <div className="level-item">
-                  <div className="button is-large is-primary m-t-lg">-</div>
+                  <div className="button is-large is-primary m-t-lg"
+                       onClick={ () => _updateProductQuantity(singleProduct.id, -1) }>-
+                  </div>
                 </div>
                 <div className="level-item has-text-centered">
                   <div>
                     <p className="heading">Quantity</p>
-                    <p className="title">150</p>
+                    <p className="title">{ singleProduct.quantity }</p>
                   </div>
                 </div>
                 <div className="level-item">
-                  <div className="button is-large is-primary m-t-lg">+</div>
+                  <div className="button is-large is-primary m-t-lg"
+                       onClick={ () => _updateProductQuantity(singleProduct.id, +1) }>+
+                  </div>
                 </div>
               </div>
               <div className="has-text-centered">
-                <div className="button is-large is-primary m-t-lg">Add to cart</div>
+                <div className="button is-large is-primary m-t-lg">Add to cart
+                </div>
               </div>
             </div>
           </div>
