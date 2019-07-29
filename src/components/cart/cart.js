@@ -76,7 +76,9 @@ class Cart extends React.Component<PropsType> {
             <div className="column has-text-centered">
               <h4>Cart subtotal (14 items)</h4>
               <h5>$680.00</h5>
-              <div className="button is-medium is-primary m-t-sm">Proceed to checkout</div>
+              <a href="/checkout">
+                <div className="button is-medium is-primary m-t-sm">Proceed to checkout</div>
+              </a>
             </div>
           </div>
         </div>
