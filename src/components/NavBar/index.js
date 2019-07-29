@@ -9,9 +9,8 @@ import Link from "redux-first-router-link";
 import { Colors } from "../../constants";
 import DropdownMenu from "../DropdownMenu";
 
-import { toggleBanner } from "../../actions/ui";
+// import { toggleBanner } from "../../actions/ui";
 import HamburgerMenuButton from "./HamburgerMenuButton";
-import CartMenuButton from "./CartMenuButton";
 
 // dropdown items
 // tracking, delivery, inventory, & retail
@@ -136,7 +135,22 @@ class NavigationBar extends React.Component<PropsType> {
                 </BrandText>
               </NavBarLink>
             </Trans>
-            <CartMenuButton />
+            <Trans>
+              <NavBarLink
+                to={{
+                  type: "CART",
+                  payload: { category: "cart" }
+                }}
+              >
+                <BrandText
+                  size={20}
+                  color={Colors.darkNavy}
+                  hoverColor={Colors.white}
+                >
+                  Cart
+                </BrandText>
+              </NavBarLink>
+            </Trans>
           </NavBarRight>
         </NavBar>
       </NavContainer>

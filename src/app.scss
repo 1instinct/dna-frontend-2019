@@ -1,0 +1,88 @@
+@charset "utf-8";
+
+// Import a Google Font
+@import url('https://fonts.googleapis.com/css?family=Nunito:400,700');
+
+// Set your brand colors
+$purple: #8A4D76;
+$pink: #FA7C91;
+$brown: #757763;
+$beige-light: #D0D1CD;
+$beige-lighter: #EFF0EB;
+$grey-lighter: #f1f1f1;
+
+// Update Bulma's global variables
+$family-sans-serif: "Nunito", sans-serif;
+$grey-dark: $brown;
+$grey-light: $beige-light;
+$primary: $purple;
+$secondary: $pink;
+$link: $pink;
+$widescreen-enabled: false;
+$fullhd-enabled: false;
+
+// Update some of Bulma's component variables
+$body-background-color: $beige-lighter;
+$control-border-width: 2px;
+$input-border-color: transparent;
+$input-shadow: none;
+
+// Some configs
+$box-background-color: $beige-lighter;
+$divider-color: $grey-dark;
+$divider-background-color: $beige-light;
+
+// Import only what you need from Bulma
+
+@import "../node_modules/bulma/bulma.sass";
+@import '../node_modules/bulma-extensions/bulma-divider/dist/css/bulma-divider.sass';
+
+// Import fontawesome
+$fa-font-path: "../node_modules/font-awesome/fonts";
+@import '../node_modules/font-awesome/css/font-awesome.css';
+
+$sizeUnit: rem;
+$marginKey: 'm';
+$paddingKey: 'p';
+$separator: '-';
+$sizes: (
+                ('none', 0),
+                ('xxs', 0.125),
+                ('xs', 0.25),
+                ('sm', 0.5),
+                ('md', 1),
+                ('lg', 2),
+                ('xl', 4),
+                ('xxl', 8),
+);
+$positions: (
+                ('t', 'top'),
+                ('r', 'right'),
+                ('b', 'bottom'),
+                ('l', 'left')
+);
+
+@function sizeValue($key, $value) {
+  @return if($key == 'none', 0, $value + $sizeUnit);
+}
+
+@each $size in $sizes {
+  $sizeKey: nth($size, 1);
+  $sizeValue: nth($size, 2);
+  .#{$marginKey}#{$separator}#{$sizeKey} {
+    margin: sizeValue($sizeKey, $sizeValue);
+  }
+  .#{$paddingKey}#{$separator}#{$sizeKey} {
+    padding: sizeValue($sizeKey, $sizeValue);
+  }
+  @each $position in $positions {
+    $posKey: nth($position, 1);
+    $posValue: nth($position, 2);
+    .#{$marginKey}#{$separator}#{$posKey}#{$separator}#{$sizeKey} {
+      margin-#{$posValue}: sizeValue($sizeKey, $sizeValue);
+    }
+    .#{$paddingKey}#{$separator}#{$posKey}#{$separator}#{$sizeKey} {
+      padding-#{$posValue}: sizeValue($sizeKey, $sizeValue);
+    }
+  }
+}

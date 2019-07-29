@@ -12,6 +12,7 @@ import UniversalComponent from "./UniversalComponent";
 import NavBar from "./components/NavBar";
 import { push as Menu } from "react-burger-menu";
 import { toggleSideMenu, toggleCartMenu } from "../src/actions/ui";
+import type { DispatchType } from "../src/types/redux";
 
 import SideMenu from "./components/SideMenu/";
 import CartMenu from "./components/CartMenu";
@@ -36,15 +37,6 @@ const AppContainer = styled.div`
   justify-content: flex-start;
 `;
 
-const Container = styled.div`
-  position: fixed;
-  top: 0px;
-  right: 0px;
-  left: 0px;
-  width: "100%";
-  z-index: 1000;
-`;
-
 class App extends React.Component<PropsType, StateType> {
   render(): React.Node {
     const {
@@ -65,7 +57,9 @@ class App extends React.Component<PropsType, StateType> {
           pageWrapId="panel"
           customBurgerIcon={false}
           customCrossIcon={false}
-          onStateChange={({ isOpen: open }) => _toggleSideMenu(open)}
+          onStateChange={({ isOpen: open }: { isOpen: boolean }): void =>
+            _toggleSideMenu(open)
+          }
           animation={"reveal"}
         >
           <SideMenu />
@@ -77,7 +71,9 @@ class App extends React.Component<PropsType, StateType> {
           pageWrapId="panel"
           customBurgerIcon={false}
           customCrossIcon={false}
-          onStateChange={({ isOpen: open }) => _toggleCartMenu(open)}
+          onStateChange={({ isOpen: open }: { isOpen: boolean }): void =>
+            _toggleCartMenu(open)
+          }
           animation={"reveal"}
         >
           <CartMenu />
@@ -147,7 +143,7 @@ const mapStateToProps = ({
   cartIsOpen: ui.cartMenuIsOpen
 });
 
-const mapDispatchToProps = dispatch =>
+const mapDispatchToProps = (dispatch: DispatchType): {} =>
   bindActionCreators(
     {
       _toggleSideMenu: toggleSideMenu,
