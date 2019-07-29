@@ -11,10 +11,11 @@ import type { ProductsArrayType, ProductType } from "../types/products";
 import { getProducts } from "../actions/products";
 import Link from "redux-first-router-link";
 import { connect } from "react-redux";
-import type { StateType } from "../types/redux";
+import type { StateType, DispatchType } from "../types/redux";
 
 type PropsType = {
-  products: ProductsArrayType
+  products: ProductsArrayType,
+  _getProducts: () => void
 };
 
 const Container = styled.div`
@@ -112,6 +113,16 @@ class Home extends React.Component<PropsType> {
   render() {
     return (
       <Container>
+        <div>
+          <h1 className="googleFont">
+            <em>Hello I am a googleFont</em>
+          </h1>
+          <p className="googleFont">Hello I am a googleFont</p>
+          <h1 className="typekitFont">
+            <em>Hello I am a typeKit font</em>
+          </h1>
+          <p className="typekitFont">Hello I am a typeKit font</p>
+        </div>
         <Title>
           <Trans>
             <BrandText color={Colors.darkNavy} bold size={25}>
@@ -133,6 +144,7 @@ class Home extends React.Component<PropsType> {
           <Trans>
             <BrandText color={Colors.darkNavy} bold size={25}>
               Top Products
+              <i className="bts bt-spinner bt-spin" />
             </BrandText>
           </Trans>
         </Title>
@@ -157,7 +169,7 @@ const mapStateToProps = ({ products: { products } }: StateType) => ({
   products: Object.values(products)
 });
 
-const mapDispatchToProps = dispatch =>
+const mapDispatchToProps = (dispatch: DispatchType) =>
   bindActionCreators(
     {
       _getProducts: getProducts

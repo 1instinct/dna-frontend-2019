@@ -31,6 +31,7 @@ const ListItems = styled.div`
   justify-content: center;
   padding: 15px;
   text-decoration: none;
+  z-index: 1001;
 `;
 
 const ListItem = styled(Link)`

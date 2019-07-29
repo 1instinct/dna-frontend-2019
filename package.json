@@ -104,6 +104,7 @@
     "husky": "^2.3.0",
     "pusher-js": "^4.4.0",
     "react": "^16.8.6",
+    "react-burger-menu": "^2.6.10",
     "react-dom": "npm:@hot-loader/react-dom",
     "react-helmet": "^5.2.1",
     "react-onclickoutside": "^6.8.0",

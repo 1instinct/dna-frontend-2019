@@ -3,11 +3,15 @@
 import * as React from "react";
 import { connect } from "react-redux";
 import styled from "styled-components";
-import BrandText from "./BrandText";
+import BrandText from "../BrandText";
 import { Trans } from "@lingui/macro"; // jsx text wrapper for translations
 import Link from "redux-first-router-link";
-import { Colors } from "../constants";
-import DropdownMenu from "./DropdownMenu";
+import { Colors } from "../../constants";
+import DropdownMenu from "../DropdownMenu";
+
+import { toggleBanner } from "../../actions/ui";
+import HamburgerMenuButton from "./HamburgerMenuButton";
+import CartMenuButton from "./CartMenuButton";
 
 // dropdown items
 // tracking, delivery, inventory, & retail
@@ -87,6 +91,7 @@ class NavigationBar extends React.Component<PropsType> {
     return (
       <NavContainer>
         <NavBar>
+          <HamburgerMenuButton />
           <NavBarLeft>
             <NavBarLink to={{ type: "HOME", payload: { category: "home" } }}>
               <Trans>
@@ -131,6 +136,7 @@ class NavigationBar extends React.Component<PropsType> {
                 </BrandText>
               </NavBarLink>
             </Trans>
+            <CartMenuButton />
           </NavBarRight>
         </NavBar>
       </NavContainer>
@@ -139,8 +145,15 @@ class NavigationBar extends React.Component<PropsType> {
 }
 
 // eslint-disable-next-line flowtype/no-weak-types
-const mapStateToProps = ({ location }: { location: any }) => ({
-  pathname: location.type
+const mapStateToProps = ({
+  location,
+  ui
+}: {
+  location: { type: string },
+  ui: { navBanner: boolean }
+}) => ({
+  pathname: location.type,
+  showBanner: ui.navBanner
 });
 
 export default connect(mapStateToProps)(NavigationBar);
