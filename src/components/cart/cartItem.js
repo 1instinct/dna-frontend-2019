@@ -1,17 +1,21 @@
 // @flow
 import * as React from "react";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import { removeProductCart } from "../../actions/cart";
 
 // eslint-disable-next-line react/prop-types
 class CartItem extends React.Component<PropsType> {
   render() {
-    const total = this.props.price * this.props.quantity;
+    const { _removeProductCart, productId, price, quantity } = this.props;
+    const total = price * quantity;
     return (
       <div className="columns content is-vcentered">
         <div className="column is-6">
           <div className="columns">
             <div className="column is-4">
               <div className="image is-128x128">
-                <img src={this.props.productUrl}></img>
+                <img src={ this.props.productUrl }></img>
               </div>
             </div>
             <div className="column is-8">
@@ -22,11 +26,11 @@ class CartItem extends React.Component<PropsType> {
                 </div>
               </div>
               <div className="columns is-centered">
-                <div className="column">
+                <div className="column" onClick={ () => _removeProductCart(productId) }>
                   <div className='has-text-centered'>
                     <span className="icon"><i className="fas fa-lg fa-trash-alt"></i></span>
                   </div>
-                  <div className='has-text-centered'>Delete</div>
+                  <div className='has-text-centered'>Remove</div>
                 </div>
                 <div className="column">
                   <div className='has-text-centered'>
@@ -45,15 +49,10 @@ class CartItem extends React.Component<PropsType> {
           </div>
         </div>
         <div className="column is-2">
-          ${ this.props.price.toFixed(2) } / g
+          ${ this.props.price.toFixed(2) }
         </div>
         <div className="column is-2">
-          <div className="field">
-            <div className="control">
-              <input className="input is-primary" type="number" placeholder="Quantity"
-                     value={ this.props.quantity }></input>
-            </div>
-          </div>
+          { this.props.quantity }
         </div>
         <div className="column is-2">${ total.toFixed(2) }</div>
       </div>
@@ -61,4 +60,16 @@ class CartItem extends React.Component<PropsType> {
   }
 }
 
-export default CartItem;
+const mapDispatchToProps = dispatch =>
+  bindActionCreators(
+    {
+      _removeProductCart: removeProductCart,
+    },
+    dispatch
+  );
+
+export default connect(
+  () => {
+  },
+  mapDispatchToProps
+)(CartItem);

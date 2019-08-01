@@ -1,11 +1,17 @@
 // @flow
 import * as React from "react";
-import styled from "styled-components";
+import { connect } from "react-redux";
 import CartItem from './cartItem';
+import type { StateType } from "../../types/redux";
+import type { ProductType } from "../../types/products";
 
 // eslint-disable-next-line react/prop-types
 class Cart extends React.Component<PropsType> {
   render() {
+    const { products } = this.props;
+    const subtotal = products.reduce((acc, product) => acc + product.price * product.quantity, 0);
+    const quantity = products.reduce((acc, product) => acc + product.quantity, 0);
+    const itemWording = quantity > 1 ? 'items' : 'item';
     return (
       <section className="section content">
         <div className="container is-fluid">
@@ -20,14 +26,16 @@ class Cart extends React.Component<PropsType> {
             <div className="column is-2"><h4>Quantity</h4></div>
             <div className="column is-2"><h4>Total</h4></div>
           </div>
-          <CartItem productName="650ml Spectrum CBD oil (Full Spectrum) Hemp Extract (60mg / ml)" price={ 60 } quantity={ 5 }
-                    productUrl="https://bulma.io/images/placeholders/128x128.png"></CartItem>
-          <CartItem productName="650ml Spectrum CBD oil (Full Spectrum) Hemp Extract (60mg / ml)" price={ 60 } quantity={ 5 }
-                    productUrl="https://bulma.io/images/placeholders/128x128.png"></CartItem>
+          { products.map(product => <CartItem
+            productId={ product.id }
+            productName={ product.title }
+            price={ product.price }
+            quantity={ product.quantity }
+            productUrl={ product.image }></CartItem>) }
           <div className="columns">
             <div className="column is-6"></div>
             <div className="column is-4"><h5>Cart Subtotal</h5></div>
-            <div className="column is-2"><h5>$ 600.00</h5></div>
+            <div className="column is-2"><h5>$ { subtotal.toFixed(2) }</h5></div>
           </div>
           <div className="is-divider"></div>
           <div className="columns">
@@ -74,11 +82,15 @@ class Cart extends React.Component<PropsType> {
           <div className="is-divider"></div>
           <div className="columns">
             <div className="column has-text-centered">
-              <h4>Cart subtotal (14 items)</h4>
-              <h5>$680.00</h5>
-              <a href="/checkout">
-                <div className="button is-medium is-primary m-t-sm">Proceed to checkout</div>
-              </a>
+              <h4>Cart subtotal ({ quantity } { itemWording })</h4>
+              <h5>$ { subtotal.toFixed(2) }</h5>
+              <div className="button is-medium is-primary m-t-sm"
+                   to={ {
+                     type: "CHECKOUT",
+                     payload: { category: "checkout" }
+                   } }>
+                Proceed to checkout
+              </div>
             </div>
           </div>
         </div>
@@ -87,4 +99,10 @@ class Cart extends React.Component<PropsType> {
   }
 }
 
-export default Cart;
+const mapStateToProps = ({ cart }: StateType): any => {
+  return {
+    products: cart.products,
+  };
+};
+
+export default connect(mapStateToProps)(Cart);

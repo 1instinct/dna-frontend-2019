@@ -5,6 +5,7 @@ import { bindActionCreators } from "redux";
 import type { ProductType } from "../../types/products";
 import type { StateType } from "../../types/redux";
 import { updateProductQuantity } from "../../actions/products";
+import { addProductCart } from "../../actions/cart";
 
 import styled from "styled-components";
 import Link from "redux-first-router-link";
@@ -18,19 +19,15 @@ type PropsType = {
 // eslint-disable-next-line react/prop-types
 class SingleProduct extends React.Component<PropsType, StateType> {
   state = {
-    product: {
-      name: "650ml Spectrum CBD oil (Full Spectrum) Hemp Extract (60mg / ml)",
-      subtitle: "650ml Spectrum CBD oil (Full Spectrum) Hemp Extract (60mg / ml)",
-      description: "650ml Spectrum CBD oil (Full Spectrum) Hemp Extract (60mg / ml)",
-      price: 15,
-    }
+    quantity: 1
   };
 
   render() {
-    const { singleProduct = {}, _updateProductQuantity, products } = this.props;
-    const { product } = this.state;
-    const subtotal =
-      parseFloat(singleProduct.price) * parseFloat(singleProduct.quantity);
+    const { singleProduct = {}, _updateProductQuantity, _addProductCart } = this.props;
+    const { quantity } = this.state;
+    singleProduct.quantity = quantity;
+    const itemWording = quantity > 1 ? 'items' : 'item';
+    const subtotal = (singleProduct.price * quantity).toFixed(2);
     return (
       <section className="section content">
         <div className="container is-fluid">
@@ -70,23 +67,25 @@ class SingleProduct extends React.Component<PropsType, StateType> {
               <div className="level">
                 <div className="level-item">
                   <div className="button is-large is-primary m-t-lg"
-                       onClick={ () => _updateProductQuantity(singleProduct.id, -1) }>-
+                       onClick={ () => this.setState({ quantity: quantity - 1 }) }>-
                   </div>
                 </div>
                 <div className="level-item has-text-centered">
                   <div>
                     <p className="heading">Quantity</p>
-                    <p className="title">{ singleProduct.quantity }</p>
+                    <p className="title">{ quantity }</p>
                   </div>
                 </div>
                 <div className="level-item">
                   <div className="button is-large is-primary m-t-lg"
-                       onClick={ () => _updateProductQuantity(singleProduct.id, +1) }>+
+                       onClick={ () => this.setState({ quantity: quantity + 1 }) }>+
                   </div>
                 </div>
               </div>
               <div className="has-text-centered">
-                <div className="button is-large is-primary m-t-lg">Add to cart
+                <div className="button is-large is-primary m-t-lg"
+                     onClick={ () => _addProductCart({ product: singleProduct }) }>
+                  Add to cart ({ quantity } { itemWording }) - ${ subtotal }
                 </div>
               </div>
             </div>
@@ -109,7 +108,8 @@ const mapStateToProps = ({ location, products }: StateType): any => {
 const mapDispatchToProps = dispatch =>
   bindActionCreators(
     {
-      _updateProductQuantity: updateProductQuantity
+      _updateProductQuantity: updateProductQuantity,
+      _addProductCart: addProductCart,
     },
     dispatch
   );

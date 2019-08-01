@@ -35,7 +35,7 @@ const NavContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: ${Colors.pink};
+  background-color: ${ Colors.pink };
 `;
 
 const NavBar = styled.div`
@@ -43,7 +43,7 @@ const NavBar = styled.div`
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  background-color: ${Colors.pink};
+  background-color: ${ Colors.pink };
   padding: 30px;
   flex-wrap: nowrap;
   width: 100%;
@@ -88,13 +88,13 @@ class NavigationBar extends React.Component<PropsType> {
       <NavContainer>
         <NavBar>
           <NavBarLeft>
-            <NavBarLink to={{ type: "HOME", payload: { category: "home" } }}>
+            <NavBarLink to={ { type: "HOME", payload: { category: "home" } } }>
               <Trans>
                 <BrandText
                   bold
-                  size={20}
-                  color={isHome ? Colors.white : Colors.darkNavy}
-                  hoverColor={Colors.white}
+                  size={ 20 }
+                  color={ isHome ? Colors.white : Colors.darkNavy }
+                  hoverColor={ Colors.white }
                 >
                   PSYCLE
                 </BrandText>
@@ -102,14 +102,14 @@ class NavigationBar extends React.Component<PropsType> {
             </NavBarLink>
           </NavBarLeft>
           <NavBarRight>
-            {/* eslint-disable-next-line flowtype/no-weak-types */}
-            <DropdownMenu menuTitle="Solutions" listItems={solutions} />
+            {/* eslint-disable-next-line flowtype/no-weak-types */ }
+            <DropdownMenu menuTitle="Solutions" listItems={ solutions }/>
             <Trans>
-              <NavBarLink to={{ type: "DEMO", payload: { category: "demo" } }}>
+              <NavBarLink to={ { type: "DEMO", payload: { category: "demo" } } }>
                 <BrandText
-                  size={20}
-                  color={isDemo ? Colors.white : Colors.darkNavy}
-                  hoverColor={Colors.white}
+                  size={ 20 }
+                  color={ isDemo ? Colors.white : Colors.darkNavy }
+                  hoverColor={ Colors.white }
                 >
                   Demo
                 </BrandText>
@@ -117,36 +117,50 @@ class NavigationBar extends React.Component<PropsType> {
             </Trans>
             <Trans>
               <NavBarLink
-                to={{
+                to={ {
                   type: "HOW_IT_WORKS",
                   payload: { category: "howitworks" }
-                }}
+                } }
               >
                 <BrandText
-                  size={20}
-                  color={Colors.darkNavy}
-                  hoverColor={Colors.white}
+                  size={ 20 }
+                  color={ Colors.darkNavy }
+                  hoverColor={ Colors.white }
                 >
                   How It Works
                 </BrandText>
               </NavBarLink>
             </Trans>
             <Trans>
-            <NavBarLink
-              to={{
-                type: "CART",
-                payload: { category: "cart" }
-              }}
-            >
-              <BrandText
-                size={20}
-                color={Colors.darkNavy}
-                hoverColor={Colors.white}
+              <NavBarLink
+                to={ {
+                  type: "CART",
+                  payload: { category: "cart" }
+                } }
               >
-                Cart
-              </BrandText>
-            </NavBarLink>
-          </Trans>
+                <BrandText
+                  size={ 20 }
+                  color={ Colors.darkNavy }
+                  hoverColor={ Colors.white }
+                >
+                  Cart
+                </BrandText>
+              </NavBarLink>
+              <NavBarLink
+                to={ {
+                  type: "CHECKOUT",
+                  payload: { category: "checkout" }
+                } }
+              >
+                <BrandText
+                  size={ 20 }
+                  color={ Colors.darkNavy }
+                  hoverColor={ Colors.white }
+                >
+                  Checkout
+                </BrandText>
+              </NavBarLink>
+            </Trans>
           </NavBarRight>
         </NavBar>
       </NavContainer>

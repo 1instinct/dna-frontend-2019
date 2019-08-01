@@ -1,10 +1,16 @@
 // @flow
 import * as React from "react";
-import styled from "styled-components";
+import type { StateType } from "../../types/redux";
+import { connect } from "react-redux";
 
 // eslint-disable-next-line react/prop-types
 class Checkout extends React.Component<PropsType> {
   render() {
+    const { products } = this.props;
+    const subtotal = products.reduce((acc, product) => acc + product.price * product.quantity, 0);
+    const tax = subtotal * 0.1;
+    const shipping = 10;
+    const total = subtotal + tax + shipping;
     return (
       <section className="section content">
         <div className="container is-fluid">
@@ -78,38 +84,28 @@ class Checkout extends React.Component<PropsType> {
                   </tr>
                   </thead>
                   <tbody>
-                  <tr>
-                    <td>650ml Spectrum CBD oil (Full Spectrum) Hemp extract (60mg / ml)</td>
-                    <td>5</td>
-                    <td>$ 325.00</td>
-                  </tr>
-                  <tr>
-                    <td>650ml Spectrum CBD oil (Full Spectrum) Hemp extract (60mg / ml)</td>
-                    <td>5</td>
-                    <td>$ 175.00</td>
-                  </tr>
-                  <tr>
-                    <td>650ml Spectrum CBD oil (Full Spectrum) Hemp extract (60mg / ml)</td>
-                    <td>5</td>
-                    <td>$ 180.00</td>
-                  </tr>
+                  { products.map(product => <tr>
+                    <td>{ product.title }</td>
+                    <td>{ product.quantity }</td>
+                    <td>$ { product.price.toFixed(2) }</td>
+                  </tr>) }
                   </tbody>
                   <tfoot>
                   <tr>
                     <th colSpan={ 2 }>Subtotal</th>
-                    <th>$ 680.00</th>
+                    <th>$ { subtotal.toFixed(2) }</th>
                   </tr>
                   <tr>
                     <th colSpan={ 2 }>Tax</th>
-                    <th>$ 68.69</th>
+                    <th>$ { tax.toFixed(2) }</th>
                   </tr>
                   <tr>
                     <th colSpan={ 2 }>Shipping</th>
-                    <th>$ 65.50</th>
+                    <th>$ { shipping.toFixed(2) }</th>
                   </tr>
                   <tr>
                     <th colSpan={ 2 }>Total</th>
-                    <th>$ 814.09</th>
+                    <th>$ { total.toFixed(2) }</th>
                   </tr>
                   </tfoot>
                 </table>
@@ -172,4 +168,10 @@ class Checkout extends React.Component<PropsType> {
   }
 }
 
-export default Checkout;
+const mapStateToProps = ({ cart }: StateType): any => {
+  return {
+    products: cart.products,
+  };
+};
+
+export default connect(mapStateToProps)(Checkout);
