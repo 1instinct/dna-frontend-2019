@@ -1,7 +1,9 @@
-import { ADD_PRODUCT_CART, REMOVE_PRODUCT_CART } from "../actions/cart";
+import { ADD_PRODUCT_CART, REMOVE_PRODUCT_CART, ADD_UPDATE_SHIPPING_METHOD } from "../actions/cart";
 
 const intialState = {
-  products: []
+  products: [],
+  shippingMethod: null,
+  shippingAddress: null,
 };
 
 export default (state = intialState, action) => {
@@ -21,6 +23,12 @@ export default (state = intialState, action) => {
       return {
         ...state,
         products: state.products.filter(product => product._id !== productId)
+      };
+    case ADD_UPDATE_SHIPPING_METHOD:
+      const shippingMethod = action.payload.shippingMethod;
+      return {
+        ...state,
+        shippingMethod,
       };
     default:
       return state;

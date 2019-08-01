@@ -4,11 +4,13 @@ import { connect } from "react-redux";
 import CartItem from './cartItem';
 import type { StateType } from "../../types/redux";
 import type { ProductType } from "../../types/products";
+import { bindActionCreators } from "redux";
+import { addUpdateShippingMethod } from "../../actions/cart";
 
 // eslint-disable-next-line react/prop-types
 class Cart extends React.Component<PropsType> {
   render() {
-    const { products } = this.props;
+    const { products, _addUpdateShippingMethod } = this.props;
     const subtotal = products.reduce((acc, product) => acc + product.price * product.quantity, 0);
     const quantity = products.reduce((acc, product) => acc + product.quantity, 0);
     const itemWording = quantity > 1 ? 'items' : 'item';
@@ -43,7 +45,7 @@ class Cart extends React.Component<PropsType> {
               <h4>Shipping:</h4>
               <div>
                 <div className="control">
-                  <label className="radio">
+                  <label className="radio" onClick={ () => _addUpdateShippingMethod("Free shipping") }>
                     <input type="radio" name="shippingType" value="Free shipping"></input>
                     Free shipping (2-3 days)
                   </label>
@@ -51,7 +53,7 @@ class Cart extends React.Component<PropsType> {
               </div>
               <div className="m-t-sm">
                 <div className="control">
-                  <label className="radio">
+                  <label className="radio" onClick={ () => _addUpdateShippingMethod("Express shipping") }>
                     <input type="radio" name="shippingType"></input>
                     Express shipping (1-2 days)
                   </label>
@@ -104,5 +106,12 @@ const mapStateToProps = ({ cart }: StateType): any => {
     products: cart.products,
   };
 };
+const mapDispatchToProps = dispatch =>
+  bindActionCreators(
+    {
+      _addUpdateShippingMethod: addUpdateShippingMethod,
+    },
+    dispatch
+  );
 
-export default connect(mapStateToProps)(Cart);
+export default connect(mapStateToProps, mapDispatchToProps())(Cart);
