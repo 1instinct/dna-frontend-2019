@@ -31,10 +31,7 @@ const CartMenuButton = ({ _toggleCartMenu }) => (
       _toggleCartMenu();
     }}
   >
-    {/* <Bar />
-    <Bar />
-    <Bar /> */}
-    <button>Cart</button>
+    <i className="bts bt-shopping-cart bt-md" />
   </Container>
 );
 
