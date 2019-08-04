@@ -46,7 +46,7 @@ const CartItem = styled.div`
 const calculateTotal = cartItems => {
   if (cartItems.length > 0) {
     const sum = cartItems
-      .map(item => item.price * item.quantity)
+      .map(item => item.price * item.subtotal)
       .reduce((a, b) => a + b);
     console.log(sum, "the cart total");
     ``;
@@ -66,9 +66,9 @@ const CartMenu = ({ cartItems, _removeFromCart }): React.Node => (
             <CartItem key={index}>
               <div>
                 <h3>
-                  {item.title} x {item.quantity}
+                  {item.title} x {item.subtotal}
                 </h3>
-                <span>${item.price * item.quantity}</span>
+                <span>${item.price * item.subtotal}</span>
               </div>
               <CartImage src={item.image} />
               <button onClick={() => _removeFromCart(index)}>

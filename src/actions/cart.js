@@ -4,8 +4,6 @@ export const REMOVE_FROM_CART = "cart/REMOVE_FROM_CART";
 // called in SingleProduct:
 export const addToCart = item => dispatch => {
   dispatch({ type: ADD_TO_CART, payload: item });
-  // reset item quantity after adding to cart
-  item.quantity = 1;
 };
 
 // called in CartMenu:

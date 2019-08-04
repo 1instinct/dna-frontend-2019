@@ -5,7 +5,7 @@ import { bindActionCreators } from "redux";
 import type { ProductType } from "../../types/products";
 import type { StateType } from "../../types/redux";
 
-import { updateProductQuantity } from "../../actions/products";
+import { updateProductSubtotal } from "../../actions/products";
 import { addToCart } from "../../actions/cart";
 
 import styled from "styled-components";
@@ -13,7 +13,7 @@ import Link from "redux-first-router-link";
 
 type PropsType = {
   singleProduct: ProductType,
-  _updateProductQuantity: (id: string, change: number) => void,
+  _updateProductSubtotal: (id: string, change: number) => void,
   _addToCart: (item: ProductType) => void,
   products: ProductType[]
 };
@@ -35,20 +35,20 @@ const PriceLabel = styled.span`
   color: #29ace4 !important;
 `;
 
-const QuantityContainer = styled.div`
+const SubtotalContainer = styled.div`
   display: grid;
   grid-template-rows: 1fr 1fr;
   margin: 0 auto;
   width: 50%;
 `;
 
-const QuantityControls = styled.div`
+const SubtotalControls = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
 `;
 
-const QuantityButton = styled.button`
+const SubtotalButton = styled.button`
   width: 20%;
 `;
 
@@ -148,12 +148,12 @@ class SingleProduct extends React.Component<PropsType, StateType> {
   render(): React.Node {
     const {
       singleProduct = {},
-      _updateProductQuantity,
+      _updateProductSubtotal,
       products,
       _addToCart
     } = this.props;
-    const subtotal =
-      parseFloat(singleProduct.price) * parseFloat(singleProduct.quantity);
+    const runningSubtotal =
+      parseFloat(singleProduct.price) * parseFloat(singleProduct.subtotal);
     return (
       <ProductPageContainer>
         <OrderContainer>
@@ -190,26 +190,26 @@ class SingleProduct extends React.Component<PropsType, StateType> {
             </ActionContainer>
 
             <span>QTY</span>
-            <QuantityContainer>
-              <QuantityControls>
-                <QuantityButton
-                  onClick={() => _updateProductQuantity(singleProduct.id, -1)}
+            <SubtotalContainer>
+              <SubtotalControls>
+                <SubtotalButton
+                  onClick={() => _updateProductSubtotal(singleProduct.id, -1)}
                 >
                   -
-                </QuantityButton>
+                </SubtotalButton>
 
-                <h3>{singleProduct.quantity}</h3>
+                <h3>{singleProduct.subtotal}</h3>
 
-                <QuantityButton
-                  onClick={() => _updateProductQuantity(singleProduct.id, +1)}
+                <SubtotalButton
+                  onClick={() => _updateProductSubtotal(singleProduct.id, +1)}
                 >
                   +
-                </QuantityButton>
-              </QuantityControls>
+                </SubtotalButton>
+              </SubtotalControls>
               <OrderSubmitButton onClick={() => _addToCart(singleProduct)}>
-                ${subtotal.toFixed(2)} Add To Cart
+                ${runningSubtotal.toFixed(2)} Add To Cart
               </OrderSubmitButton>
-            </QuantityContainer>
+            </SubtotalContainer>
           </ProductInfo>
         </OrderContainer>
         <section>
@@ -252,7 +252,7 @@ const mapDispatchToProps = dispatch =>
   bindActionCreators(
     {
       _addToCart: addToCart,
-      _updateProductQuantity: updateProductQuantity
+      _updateProductSubtotal: updateProductSubtotal
     },
     dispatch
   );
