@@ -4,7 +4,9 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import type { ProductType } from "../../types/products";
 import type { StateType } from "../../types/redux";
+
 import { updateProductQuantity } from "../../actions/products";
+import { addToCart } from "../../actions/cart";
 
 import styled from "styled-components";
 import Link from "redux-first-router-link";
@@ -12,6 +14,7 @@ import Link from "redux-first-router-link";
 type PropsType = {
   singleProduct: ProductType,
   _updateProductQuantity: (id: string, change: number) => void,
+  _addToCart: (item: ProductType) => void,
   products: ProductType[]
 };
 
@@ -143,7 +146,12 @@ const ProductThumbnail = styled.img`
 // eslint-disable-next-line react/prop-types
 class SingleProduct extends React.Component<PropsType, StateType> {
   render(): React.Node {
-    const { singleProduct = {}, _updateProductQuantity, products } = this.props;
+    const {
+      singleProduct = {},
+      _updateProductQuantity,
+      products,
+      _addToCart
+    } = this.props;
     const subtotal =
       parseFloat(singleProduct.price) * parseFloat(singleProduct.quantity);
     return (
@@ -189,14 +197,16 @@ class SingleProduct extends React.Component<PropsType, StateType> {
                 >
                   -
                 </QuantityButton>
+
                 <h3>{singleProduct.quantity}</h3>
+
                 <QuantityButton
                   onClick={() => _updateProductQuantity(singleProduct.id, +1)}
                 >
                   +
                 </QuantityButton>
               </QuantityControls>
-              <OrderSubmitButton>
+              <OrderSubmitButton onClick={() => _addToCart(singleProduct)}>
                 ${subtotal.toFixed(2)} Add To Cart
               </OrderSubmitButton>
             </QuantityContainer>
@@ -241,6 +251,7 @@ const mapStateToProps = ({ location, products }: StateType): any => {
 const mapDispatchToProps = dispatch =>
   bindActionCreators(
     {
+      _addToCart: addToCart,
       _updateProductQuantity: updateProductQuantity
     },
     dispatch
