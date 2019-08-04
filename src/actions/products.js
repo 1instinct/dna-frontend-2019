@@ -13,7 +13,7 @@ export const updateProductQuantity = (id, change) => (dispatch, getState) => {
   const product = { ...products[id] };
 
   product.quantity += change;
-  if (product.quantity < 0) product.quantity = 0;
+  if (product.quantity < 1) product.quantity = 1;
 
   dispatch({ type: UPDATE_PRODUCT_QUANTITY, productId: product.id, product });
 };
