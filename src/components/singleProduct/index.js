@@ -6,7 +6,7 @@ import type { ProductType } from "../../types/products";
 import type { StateType } from "../../types/redux";
 
 import { updateProductSubtotal } from "../../actions/products";
-import { addToCart } from "../../actions/cart";
+import { addToCart, updateCartItem } from "../../actions/cart";
 
 import styled from "styled-components";
 import Link from "redux-first-router-link";
@@ -14,8 +14,10 @@ import Link from "redux-first-router-link";
 type PropsType = {
   singleProduct: ProductType,
   _updateProductSubtotal: (id: string, change: number) => void,
+  products: ProductType[],
   _addToCart: (id: string, amount: number) => void,
-  products: ProductType[]
+  _updateCartItem: (id: string, amount: number) => void,
+  cartItems: {}
 };
 
 const ProductPageContainer = styled.div`
@@ -145,6 +147,13 @@ const ProductThumbnail = styled.img`
 
 // eslint-disable-next-line react/prop-types
 class SingleProduct extends React.Component<PropsType, StateType> {
+  handleClick(id, subtotal): void {
+    const { cartItems, _addToCart, _updateCartItem } = this.props;
+
+    cartItems.hasOwnProperty(id)
+      ? _updateCartItem(id, subtotal)
+      : _addToCart(id, subtotal);
+  }
   render(): React.Node {
     const {
       singleProduct = {},
@@ -208,7 +217,7 @@ class SingleProduct extends React.Component<PropsType, StateType> {
               </SubtotalControls>
               <OrderSubmitButton
                 onClick={() =>
-                  _addToCart(singleProduct.id, singleProduct.subtotal)
+                  this.handleClick(singleProduct.id, singleProduct.subtotal)
                 }
               >
                 ${runningSubtotal.toFixed(2)} Add To Cart
@@ -243,12 +252,13 @@ class SingleProduct extends React.Component<PropsType, StateType> {
   }
 }
 
-const mapStateToProps = ({ location, products }: StateType): any => {
+const mapStateToProps = ({ location, products, cart }: StateType): any => {
   return {
     singleProduct: products.products[location.payload.productId],
     products: products.productsList.filter(
       (product: ProductType) => product.id !== location.payload.productId
-    )
+    ),
+    cartItems: cart.cartItems
   };
 };
 
@@ -256,7 +266,8 @@ const mapDispatchToProps = dispatch =>
   bindActionCreators(
     {
       _addToCart: addToCart,
-      _updateProductSubtotal: updateProductSubtotal
+      _updateProductSubtotal: updateProductSubtotal,
+      _updateCartItem: updateCartItem
     },
     dispatch
   );
