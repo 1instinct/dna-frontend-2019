@@ -57,7 +57,6 @@ const CartMenu = ({
   _removeFromCart
 }): React.Node => (
   <Container>
-    {console.log(cartArray)}
     <Logo alt="logo" src="#" />
     <p>I'm the cart menu</p>
     {cartArray.length ? (
@@ -87,40 +86,6 @@ const CartMenu = ({
     )}
   </Container>
 );
-// const CartMenu = ({ cartItems, products, _removeFromCart }): React.Node => (
-//   <Container>
-//     <Logo alt="logo" src="#" />
-//     <p>I'm the cart menu</p>
-
-//     {Object.keys(cartItems).length > 0 ? (
-//       <div>
-//         {Object.keys(cartItems).map((itemKey, index) => {
-//           const cartItemsArray = products.filter(
-//             product => product.id === itemKey
-//           );
-//           return cartItemsArray.map(item => {
-//             const amount = cartItems[itemKey];
-//             return (
-//               <CartItem key={index}>
-//                 <h1>
-//                   {item.title} x {amount}
-//                 </h1>
-//                 <span>${item.price * amount}</span>
-//                 <CartImage src={item.image} />
-//                 <button onClick={() => _removeFromCart(itemKey)}>
-//                   Remove From Cart
-//                 </button>
-//               </CartItem>
-//             );
-//           });
-//         })}
-//         <h1>Total: ${calculateTotal(cartItems, products)}</h1>
-//       </div>
-//     ) : (
-//       <div>Empty Cart</div>
-//     )}
-//   </Container>
-// );
 
 const mapStateToProps = ({ cart, products: { products } }: StateType) => {
   return {
