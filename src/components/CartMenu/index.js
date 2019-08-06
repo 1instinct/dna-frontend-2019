@@ -2,16 +2,19 @@
 import * as React from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import type { ProductType } from "../../types/products";
+import type { ProductType, ProductsArrayType } from "../../types/products";
 import type { StateType } from "../../types/redux";
+
+import { getProductId } from "../../actions/products";
 
 import { removeFromCart } from "../../actions/cart";
 
 import styled from "styled-components";
 
 type PropsType = {
-  cartItems: [],
-  _removeFromCart: (index: Number) => void
+  cartItems: {},
+  _removeFromCart: (index: Number) => void,
+  products: ProductsArrayType
 };
 
 const Container = styled.div`
@@ -43,41 +46,59 @@ const CartItem = styled.div`
   flex-direction: column;
 `;
 
-const calculateTotal = cartItems => {
-  if (cartItems.length > 0) {
-    const sum = cartItems
-      .map(item => item.price * item.subtotal)
-      .reduce((a, b) => a + b);
-    console.log(sum, "the cart total");
-    ``;
-    return sum;
-  }
+// const calculateTotal = cartItems => {
+//   if (cartItems.length > 0) {
+//     const sum = cartItems
+//       .map(element => element.item.price * element.amount)
+//       .reduce((a, b) => a + b);
+//     console.log(sum, "the cart total");
+//     return sum;
+//   }
+// };
+
+const calculateTotal = (cartItems, products) => {
+  const cartKeys = Object.keys(cartItems);
+  let sum = 0;
+
+  cartKeys.map((key, index) => {
+    const cartedArray = products.filter(product => product.id === key);
+    return cartedArray.map(item => {
+      const itemSubAmount = cartItems[key] * item.price;
+      sum += itemSubAmount;
+      console.log(sum);
+    });
+  });
+  return sum;
 };
 
-const CartMenu = ({ cartItems, _removeFromCart }): React.Node => (
+const CartMenu = ({ cartItems, products, _removeFromCart }): React.Node => (
   <Container>
     <Logo alt="logo" src="#" />
     <p>I'm the cart menu</p>
 
-    {cartItems.length > 0 ? (
+    {Object.keys(cartItems).length > 0 ? (
       <div>
-        {cartItems.map((item, index) => {
-          return (
-            <CartItem key={index}>
-              <div>
-                <h3>
-                  {item.title} x {item.subtotal}
-                </h3>
-                <span>${item.price * item.subtotal}</span>
-              </div>
-              <CartImage src={item.image} />
-              <button onClick={() => _removeFromCart(index)}>
-                Remove from cart
-              </button>
-            </CartItem>
+        {Object.keys(cartItems).map((itemKey, index) => {
+          const cartItemsArray = products.filter(
+            product => product.id === itemKey
           );
+          return cartItemsArray.map(item => {
+            const amount = cartItems[itemKey];
+            return (
+              <CartItem key={index}>
+                <h1>
+                  {item.title} x {amount}
+                </h1>
+                <span>${item.price * amount}</span>
+                <CartImage src={item.image} />
+                <button onClick={() => _removeFromCart(itemKey)}>
+                  Remove From Cart
+                </button>
+              </CartItem>
+            );
+          });
         })}
-        <h3>Total: ${calculateTotal(cartItems)}</h3>
+        <h1>Total: ${calculateTotal(cartItems, products)}</h1>
       </div>
     ) : (
       <div>Empty Cart</div>
@@ -85,16 +106,18 @@ const CartMenu = ({ cartItems, _removeFromCart }): React.Node => (
   </Container>
 );
 
-const mapStateToProps = ({ cart }: StateType) => {
+const mapStateToProps = ({ cart, products: { products } }: StateType) => {
   return {
-    cartItems: cart.cartItems
+    cartItems: cart.cartItems,
+    products: Object.values(products)
   };
 };
 
 const mapDispatchToProps = dispatch =>
   bindActionCreators(
     {
-      _removeFromCart: removeFromCart
+      _removeFromCart: removeFromCart,
+      _getProductId: getProductId
     },
     dispatch
   );
