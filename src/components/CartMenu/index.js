@@ -6,14 +6,14 @@ import type { ProductType, ProductsArrayType } from "../../types/products";
 import type { StateType } from "../../types/redux";
 
 import { getProductId } from "../../actions/products";
-
 import { removeFromCart } from "../../actions/cart";
 
 import styled from "styled-components";
 
 type PropsType = {
   cartItems: {},
-  _removeFromCart: (index: Number) => void,
+  cartArray: [],
+  _removeFromCart: (id: string) => void,
   products: ProductsArrayType
 };
 
@@ -46,69 +46,86 @@ const CartItem = styled.div`
   flex-direction: column;
 `;
 
-// const calculateTotal = cartItems => {
-//   if (cartItems.length > 0) {
-//     const sum = cartItems
-//       .map(element => element.item.price * element.amount)
-//       .reduce((a, b) => a + b);
-//     console.log(sum, "the cart total");
-//     return sum;
-//   }
-// };
-
-const calculateTotal = (cartItems, products) => {
-  const cartKeys = Object.keys(cartItems);
-  let sum = 0;
-
-  cartKeys.map((key, index) => {
-    const cartedArray = products.filter(product => product.id === key);
-    return cartedArray.map(item => {
-      const itemSubAmount = cartItems[key] * item.price;
-      sum += itemSubAmount;
-      console.log(sum);
-    });
-  });
-  return sum;
+const calculateTotal = cartArray => {
+  return cartArray.reduce((acc, item) => acc + item.price * item.amount, 0);
 };
 
-const CartMenu = ({ cartItems, products, _removeFromCart }): React.Node => (
+const CartMenu = ({
+  cartItems,
+  cartArray,
+  products,
+  _removeFromCart
+}): React.Node => (
   <Container>
+    {console.log(cartArray)}
     <Logo alt="logo" src="#" />
     <p>I'm the cart menu</p>
-
-    {Object.keys(cartItems).length > 0 ? (
+    {cartArray.length ? (
       <div>
-        {Object.keys(cartItems).map((itemKey, index) => {
-          const cartItemsArray = products.filter(
-            product => product.id === itemKey
+        {cartArray.map((item, i) => {
+          const cartProducts = products.filter(
+            product => product.id === item.id
           );
-          return cartItemsArray.map(item => {
-            const amount = cartItems[itemKey];
+          return cartProducts.map((product, index) => {
             return (
               <CartItem key={index}>
-                <h1>
-                  {item.title} x {amount}
-                </h1>
-                <span>${item.price * amount}</span>
-                <CartImage src={item.image} />
-                <button onClick={() => _removeFromCart(itemKey)}>
-                  Remove From Cart
+                <h4>
+                  {product.title} x {item.amount}
+                </h4>
+                <CartImage src={product.image} />
+                <button onClick={() => _removeFromCart(product.id)}>
+                  Remove from cart
                 </button>
               </CartItem>
             );
           });
         })}
-        <h1>Total: ${calculateTotal(cartItems, products)}</h1>
+        <div>Total: ${calculateTotal(cartArray)}</div>
       </div>
     ) : (
       <div>Empty Cart</div>
     )}
   </Container>
 );
+// const CartMenu = ({ cartItems, products, _removeFromCart }): React.Node => (
+//   <Container>
+//     <Logo alt="logo" src="#" />
+//     <p>I'm the cart menu</p>
+
+//     {Object.keys(cartItems).length > 0 ? (
+//       <div>
+//         {Object.keys(cartItems).map((itemKey, index) => {
+//           const cartItemsArray = products.filter(
+//             product => product.id === itemKey
+//           );
+//           return cartItemsArray.map(item => {
+//             const amount = cartItems[itemKey];
+//             return (
+//               <CartItem key={index}>
+//                 <h1>
+//                   {item.title} x {amount}
+//                 </h1>
+//                 <span>${item.price * amount}</span>
+//                 <CartImage src={item.image} />
+//                 <button onClick={() => _removeFromCart(itemKey)}>
+//                   Remove From Cart
+//                 </button>
+//               </CartItem>
+//             );
+//           });
+//         })}
+//         <h1>Total: ${calculateTotal(cartItems, products)}</h1>
+//       </div>
+//     ) : (
+//       <div>Empty Cart</div>
+//     )}
+//   </Container>
+// );
 
 const mapStateToProps = ({ cart, products: { products } }: StateType) => {
   return {
     cartItems: cart.cartItems,
+    cartArray: Object.values(cart.cartItems),
     products: Object.values(products)
   };
 };
