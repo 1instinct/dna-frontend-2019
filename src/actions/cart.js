@@ -3,8 +3,8 @@ export const UPDATE_CART_ITEM = "cart/UPDATE_CART_ITEM";
 export const REMOVE_FROM_CART = "cart/REMOVE_FROM_CART";
 
 // called in SingleProduct:
-export const addToCart = (id, amount) => dispatch => {
-  dispatch({ type: ADD_TO_CART, payload: { id, amount } });
+export const addToCart = (id, amount, price) => dispatch => {
+  dispatch({ type: ADD_TO_CART, payload: { id, amount, price } });
 };
 
 export const updateCartItem = (id, amount) => dispatch => {

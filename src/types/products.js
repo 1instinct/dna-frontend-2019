@@ -4,7 +4,7 @@ export type ProductType = {
   subtitle: string,
   image: string,
   id: string,
-  price: string,
+  price: number,
   subtotal: number,
   description: string
 };

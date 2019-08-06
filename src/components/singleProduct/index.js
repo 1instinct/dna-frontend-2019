@@ -15,7 +15,7 @@ type PropsType = {
   singleProduct: ProductType,
   _updateProductSubtotal: (id: string, change: number) => void,
   products: ProductType[],
-  _addToCart: (id: string, amount: number) => void,
+  _addToCart: (id: string, amount: number, price: number) => void,
   _updateCartItem: (id: string, amount: number) => void,
   cartItems: {}
 };
@@ -147,12 +147,12 @@ const ProductThumbnail = styled.img`
 
 // eslint-disable-next-line react/prop-types
 class SingleProduct extends React.Component<PropsType, StateType> {
-  handleClick(id, subtotal): void {
+  handleClick(id, subtotal, price): void {
     const { cartItems, _addToCart, _updateCartItem } = this.props;
 
     cartItems.hasOwnProperty(id)
       ? _updateCartItem(id, subtotal)
-      : _addToCart(id, subtotal);
+      : _addToCart(id, subtotal, price);
   }
   render(): React.Node {
     const {
@@ -217,7 +217,11 @@ class SingleProduct extends React.Component<PropsType, StateType> {
               </SubtotalControls>
               <OrderSubmitButton
                 onClick={() =>
-                  this.handleClick(singleProduct.id, singleProduct.subtotal)
+                  this.handleClick(
+                    singleProduct.id,
+                    singleProduct.subtotal,
+                    singleProduct.price
+                  )
                 }
               >
                 ${runningSubtotal.toFixed(2)} Add To Cart
