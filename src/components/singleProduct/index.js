@@ -148,11 +148,21 @@ const ProductThumbnail = styled.img`
 // eslint-disable-next-line react/prop-types
 class SingleProduct extends React.Component<PropsType, StateType> {
   handleClick(id, subtotal, price): void {
-    const { cartItems, _addToCart, _updateCartItem } = this.props;
+    const {
+      cartItems,
+      _addToCart,
+      _updateCartItem,
+      _updateProductSubtotal
+    } = this.props;
 
     cartItems.hasOwnProperty(id)
       ? _updateCartItem(id, subtotal)
       : _addToCart(id, subtotal, price);
+
+    // reset product subtotal back to 1 if it changed
+    if (subtotal !== 1) {
+      _updateProductSubtotal(id, -1 * (subtotal - 1));
+    }
   }
   render(): React.Node {
     const {
