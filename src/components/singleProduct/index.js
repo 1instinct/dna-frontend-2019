@@ -14,7 +14,7 @@ import Link from "redux-first-router-link";
 type PropsType = {
   singleProduct: ProductType,
   _updateProductSubtotal: (id: string, change: number) => void,
-  _addToCart: (item: ProductType) => void,
+  _addToCart: (id: string, amount: number) => void,
   products: ProductType[]
 };
 
@@ -206,7 +206,11 @@ class SingleProduct extends React.Component<PropsType, StateType> {
                   +
                 </SubtotalButton>
               </SubtotalControls>
-              <OrderSubmitButton onClick={() => _addToCart(singleProduct)}>
+              <OrderSubmitButton
+                onClick={() =>
+                  _addToCart(singleProduct.id, singleProduct.subtotal)
+                }
+              >
                 ${runningSubtotal.toFixed(2)} Add To Cart
               </OrderSubmitButton>
             </SubtotalContainer>
