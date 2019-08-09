@@ -1,12 +1,21 @@
+//@flow
+/* eslint-disable flowtype/require-return-type */
 import React from "react";
-
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import styled from "styled-components";
 import { toggleCartMenu } from "../../actions/ui";
+
+import type { StateType } from "../../types/redux";
+
+import Colors from "../../constants/colors";
+import styled from "styled-components";
 
 // import './HamburgerMenuButton.styl'
 // We use animated-hamburger.scss because we can't use styled-components :(
+
+type PropsType = {
+  cartArray: []
+};
 
 const Bar = styled.div`
   width: 20px;
@@ -20,9 +29,32 @@ const Container = styled.div`
   display: inline-block;
   cursor: pointer;
   outline: none;
+  position: relative;
+
+  i.cart-icon {
+    display: inline-block;
+    transform: scale(0.9);
+    color: ${Colors.darkNavy};
+    &:hover {
+      color: ${Colors.white};
+    }
+  }
+
+  .cart-badge {
+    position: absolute;
+    top: 0;
+    right: 0;
+    transform: translate(1.6rem, -1.5rem);
+    border-radius: 50%;
+    background-color: orangered;
+    width: 2rem;
+    height: 2rem;
+    text-align: center;
+    color: ${Colors.white};
+  }
 `;
 
-const CartMenuButton = ({ _toggleCartMenu }) => (
+const CartMenuButton = ({ _toggleCartMenu, cartArray }) => (
   <Container
     tabIndex="0"
     role="button"
@@ -31,9 +63,22 @@ const CartMenuButton = ({ _toggleCartMenu }) => (
       _toggleCartMenu();
     }}
   >
-    <i className="bts bt-shopping-cart bt-md" />
+    <i className="bts bt-shopping-cart bt-lg cart-icon" />
+    {cartArray.length ? (
+      <div className="cart-badge">
+        <span>{cartArray.length}</span>
+      </div>
+    ) : (
+      ""
+    )}
   </Container>
 );
+
+const mapStateToProps = ({ cart }: StateType) => {
+  return {
+    cartArray: Object.values(cart.cartItems)
+  };
+};
 
 const mapDispatchToProps = dispatch =>
   bindActionCreators(
@@ -43,6 +88,6 @@ const mapDispatchToProps = dispatch =>
     dispatch
   );
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps
 )(CartMenuButton);
