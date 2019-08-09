@@ -33,7 +33,8 @@ export default (state = initState, action) => {
           [action.payload.id]: {
             ...state.cartItems[action.payload.id],
             amount:
-              state.cartItems[action.payload.id].amount + action.payload.amount
+              state.cartItems[action.payload.id].amount +
+                action.payload.amount || 1
           }
         }
       };
