@@ -35,6 +35,8 @@ const Container = styled.div`
     display: inline-block;
     transform: scale(0.9);
     color: ${Colors.darkNavy};
+    font-size: 2.5rem;
+
     &:hover {
       color: ${Colors.white};
     }
@@ -50,6 +52,8 @@ const Container = styled.div`
     width: 2rem;
     height: 2rem;
     text-align: center;
+    line-height: 1.75rem;
+    font-weight: bold;
     color: ${Colors.white};
   }
 `;
