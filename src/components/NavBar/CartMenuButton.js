@@ -52,7 +52,7 @@ const Container = styled.div`
     width: 2rem;
     height: 2rem;
     text-align: center;
-    line-height: 1.75rem;
+    line-height: 1.8rem;
     font-weight: bold;
     color: ${Colors.white};
   }

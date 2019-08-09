@@ -8,6 +8,7 @@ import type { StateType } from "../../types/redux";
 import { updateProductSubtotal } from "../../actions/products";
 import { addToCart, updateCartItem } from "../../actions/cart";
 
+import Colors from "../../constants/colors";
 import styled from "styled-components";
 import Link from "redux-first-router-link";
 
@@ -31,10 +32,24 @@ const OrderContainer = styled.div`
 
 const ProductInfo = styled.div`
   margin: 5%;
+  color: ${Colors.darkNavy};
+
+  h1 {
+    font-size: 3.2rem;
+  }
+
+  h3 {
+    font-size: 1.87rem;
+  }
+
+  p {
+    font-size: 1.6rem;
+  }
 `;
 
 const PriceLabel = styled.span`
   color: #29ace4 !important;
+  font-size: 1.6rem;
 `;
 
 const SubtotalContainer = styled.div`
@@ -42,6 +57,7 @@ const SubtotalContainer = styled.div`
   grid-template-rows: 1fr 1fr;
   margin: 0 auto;
   width: 50%;
+  font-size: 1.6rem;
 `;
 
 const SubtotalControls = styled.div`
@@ -60,8 +76,8 @@ const OrderSubmitButton = styled.button`
 `;
 
 const ProductImage = styled.img`
-  min-height: 400px;
-  min-width: 400px;
+  min-height: 40rem;
+  min-width: 40rem;
   margin: 0 auto;
 `;
 
@@ -128,6 +144,7 @@ const RelatedContainer = styled.div`
 
 const RelatedLabel = styled.span`
   margin-left: 10%;
+  font-size: 2.4rem;
 `;
 
 const RelatedProduct = styled.div`
@@ -137,6 +154,9 @@ const RelatedProduct = styled.div`
 // todo
 const ProductLink = styled(Link)`
   text-decoration: none;
+  h4 {
+    font-size: 1.6rem;
+  }
 `;
 
 const ProductThumbnail = styled.img`
