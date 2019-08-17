@@ -65,3 +65,5 @@ export default ({ children }) => <ColoredContainer>{children}</ColoredContainer>
 ```
 
 There are text-editor packages for react, styled-components, flow, and ES-LINT that will make your life easier.
+
+## Deployment
