@@ -67,3 +67,6 @@ export default ({ children }) => <ColoredContainer>{children}</ColoredContainer>
 There are text-editor packages for react, styled-components, flow, and ES-LINT that will make your life easier.
 
 ## Deployment
+
+1. Make sure all dependencies & devDependencies are arranged properly
+1. You may need to run `rm -Rf node_modules` locally to prevent Heroku from looking for the wrong pkgs
